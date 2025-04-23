@@ -15,5 +15,4 @@ include("m1l1-first")
 include("m1l3-func")
 include("m1l4-oop")
 include("m2l1-dsl")
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+include("m2l2-coroutines")
