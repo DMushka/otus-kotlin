@@ -21,6 +21,7 @@ class SqlSelectBuilder {
     private var from : String = ""
     private var select : String = ""
     private var where : String = ""
+    private var orDsl = OrDsl()
 
     @SQLDsl
     fun from(from : String) {
@@ -36,36 +37,87 @@ class SqlSelectBuilder {
     }
 
     @SQLDsl
-    fun where (where: () -> String) {
-        this.where = " where ${where()}"
+    class Condition(
+        val first : String,
+        val second: Any?,
+        val isEquals : Boolean
+    )
+
+    @SQLDsl
+    class OrDsl{
+
+        var orList = mutableListOf<Condition>()
+
+        @SQLDsl
+        infix fun String.eq(arg: Any?) {
+            orList.add( Condition(this, arg, true) )
+        }
+
+        @SQLDsl
+        infix fun String.nonEq(arg: Any?) {
+            orList.add( Condition(this, arg, false) )
+        }
     }
 
     @SQLDsl
-    infix fun String.eq(arg : Any?) : String =
-        when (arg) {
-            null -> "$this is null"
-            is Number -> "$this = $arg"
-            is String -> "$this = '$arg'"
-            else -> throw RuntimeException("Illegal type of argument")
+    class WhereDsl{
+
+        var where = ""
+
+        var andList = mutableListOf<Condition>()
+        @SQLDsl
+        infix fun String.eq(arg: Any?) {
+            andList.add( Condition(this, arg, true) )
         }
 
-    @SQLDsl
-    infix fun String.nonEq(arg : Any?) : String =
-        when (arg) {
-            null -> "$this is not null"
-            is Number -> "$this != $arg"
-            is String -> "$this != '$arg'"
-            else -> throw RuntimeException("Illegal type of argument")
+        @SQLDsl
+        infix fun String.nonEq(arg: Any?) {
+            andList.add( Condition(this, arg, false) )
         }
 
+
+        private var orDsl = OrDsl()
+        fun or(block: OrDsl.() -> Unit) {
+            orDsl.apply { block() }
+            if (orDsl.orList.isNotEmpty()) {
+                where = "("
+                orDsl.orList.forEachIndexed { index, item ->
+                    where += (if (index == 0) "" else " or ") + eq(item.first, item.second, item.isEquals)
+                }
+                where += ")"
+            }
+        }
+    }
+
     @SQLDsl
-    fun or(arg : () -> String) : String {
-        return TODO()
+    fun where (block: WhereDsl.() -> Unit) {
+
+        val whereDsl = WhereDsl()
+        whereDsl.apply { block() }
+
+        if (whereDsl.where.isNotEmpty() || whereDsl.andList.isNotEmpty()) {
+            where = " where "
+            whereDsl.andList.forEachIndexed { index, item ->
+                where += eq(item.first, item.second, item.isEquals) +
+                        (if (index != whereDsl.andList.size - 1 || whereDsl.where.isNotEmpty() ) " and " else "")
+            }
+            where += whereDsl.where
+        }
     }
 
     fun build(): String {
         require(from.isNotEmpty())
         return "select ${select.ifEmpty { "*" }} from $from$where"
+    }
+}
+
+fun eq (arg1: String, arg2: Any?, isEquals: Boolean) : String {
+    val exclamation = if (isEquals) "" else "!"
+    return when (arg2) {
+        null -> "$arg1 ${exclamation}is null"
+        is Number -> "$arg1 ${exclamation}= $arg2"
+        is String -> "$arg1 ${exclamation}= '$arg2'"
+        else -> throw RuntimeException("Illegal type of argument")
     }
 }
 
@@ -159,7 +211,6 @@ class Hw1Sql {
     }
 
     @Test
-    @Ignore
     fun `when 'or' conditions are specified then they are respected`() {
         val expected = "select * from table where (col_a = 4 or col_b !is null)"
 
@@ -175,4 +226,23 @@ class Hw1Sql {
 
         checkSQL(expected, real)
     }
+
+    @Test
+    fun `when 'and' and 'or' conditions are specified then they are respected`() {
+        val expected = "select * from table where col_a = 1 and (col_b = 2 or col_c !is null)"
+
+        val real = query {
+            from("table")
+            where {
+                "col_a" eq 1
+                or {
+                    "col_b" eq 2
+                    "col_c" nonEq null
+                }
+            }
+        }
+
+        checkSQL(expected, real)
+    }
+
 }
