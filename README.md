@@ -27,5 +27,6 @@ Groschenberry -- это приложение для нумизматов, поз
    2. [Описание API](./docs/04-architecture/02-api.md)
    3. [Компонентная схема](./docs/04-architecture/03-arch.md)
 5. Тесты
+   1. [Тестовые сценарии](./docs/05-testing/01-tests-list.md)
 
 # Структура проекта
