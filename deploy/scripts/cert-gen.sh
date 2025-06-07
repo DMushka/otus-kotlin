@@ -2,9 +2,9 @@
 
 JKS_PASS=app123456
 
-DIR_CA=volumes/ca
-DIR_ENVOY=volumes/envoy/certs
-DIR_KC=volumes/keycloak/certs
+DIR_CA=../volumes/ca
+DIR_ENVOY=../volumes/envoy/certs
+DIR_KC=../volumes/keycloak/certs
 
 # Create directories
 mkdir -p $DIR_CA
