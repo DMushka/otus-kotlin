@@ -1,0 +1,810 @@
+openapi: 3.0.3
+info:
+  title: "Groschenberry ${VERSION_APP}"
+  description: This is a place where numismatist can meat coin information
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: cib
+    description: Информация о монетах основная
+  - name: cid
+    description: Информация о монетах детальная
+paths:
+  /ci/basic/create:
+    post:
+      tags:
+        - cib
+      summary: Create basic coin information
+      operationId: cibCreate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIBCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIBCreateResponse'
+  /ci/basic/read:
+    post:
+      tags:
+        - cib
+      summary: Read basic coin information
+      operationId: cibRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIBReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIBReadResponse'
+  /ci/basic/update:
+    post:
+      tags:
+        - cib
+      summary: Update basic coin information
+      operationId: cibUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIBUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIBUpdateResponse'
+  /ci/basic/delete:
+    post:
+      tags:
+        - cib
+      summary: Delete basic coin information
+      operationId: cibDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIBDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIBDeleteResponse'
+  /ci/basic/search:
+    post:
+      tags:
+        - cib
+      summary: Search basic coin information
+      operationId: cibSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIBSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIBSearchResponse'
+
+  /ci/detail/{cibId}/create:
+    post:
+      tags:
+        - cid
+      summary: Create detail coin information
+      operationId: cidCreate
+      parameters:
+        - name: cibId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/CIBId'
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIDCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIDCreateResponse'
+  /ci/detail/{cibId}/read:
+    post:
+      tags:
+        - cid
+      summary: Read detail coin information
+      operationId: cidRead
+      parameters:
+        - name: cibId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/CIBId'
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIDReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIDReadResponse'
+  /ci/detail/{cibId}/update:
+    post:
+      tags:
+        - cid
+      summary: Update detail coin information
+      operationId: cidUpdate
+      parameters:
+        - name: cibId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/CIBId'
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIDUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIDUpdateResponse'
+  /ci/detail/{cibId}/delete:
+    post:
+      tags:
+        - cid
+      summary: Delete detail coin information
+      operationId: cidDelete
+      parameters:
+        - name: cibId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/CIBId'
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIDDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIDDeleteResponse'
+  /ci/detail/search:
+    post:
+      tags:
+        - cid
+      summary: Search detail coin information
+      operationId: cidSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CIDSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CIDSearchResponse'
+
+components:
+  schemas:
+
+    IBasicRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов к базовой карточке
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/CIBCreateRequest'
+          read:   '#/components/schemas/CIBReadRequest'
+          update: '#/components/schemas/CIBUpdateRequest'
+          delete: '#/components/schemas/CIBDeleteRequest'
+          search: '#/components/schemas/CIBSearchRequest'
+
+    IDetailRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов к детальной информации
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/CIDCreateRequest'
+          read:   '#/components/schemas/CIDReadRequest'
+          update: '#/components/schemas/CIDUpdateRequest'
+          delete: '#/components/schemas/CIDDeleteRequest'
+          search: '#/components/schemas/CIDSearchRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IBasicResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов от основной карточки
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/CIBCreateResponse'
+          read:   '#/components/schemas/CIBReadResponse'
+          update: '#/components/schemas/CIBUpdateResponse'
+          delete: '#/components/schemas/CIBDeleteResponse'
+          search: '#/components/schemas/CIBSearchResponse'
+          init: '#/components/schemas/CIBInitResponse'
+
+    IDetailResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов от детальной карточки
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/CIDCreateResponse'
+          read: '#/components/schemas/CIDReadResponse'
+          update: '#/components/schemas/CIDUpdateResponse'
+          delete: '#/components/schemas/CIDDeleteResponse'
+          search: '#/components/schemas/CIDSearchResponse'
+          init: '#/components/schemas/CIDInitResponse'
+
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+    CIBId:
+      type: string
+      description: Идентификатор карточки монеты с основной информацией
+    CIDId:
+      type: string
+      description: Идентификатор карточки монеты с детальной информацией
+    CILock:
+      type: string
+      description: Версия оптимистичной блокировки
+    CIPermissions:
+      type: string
+      description: Доступы для пользователя операций над карточкой монеты
+      enum:
+        - read
+        - update
+        - delete
+
+    BaseCIB:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        title:
+          type: string
+          description: Заголовок карточки
+        description:
+          type: string
+          description: Описание монеты
+        country:
+          $ref: '#/components/schemas/Country'
+        currency:
+          $ref: '#/components/schemas/Currency'
+        nominal:
+          $ref: '#/components/schemas/Nominal'
+        material:
+          type: string
+          description: Материал монеты
+        diameter:
+          type: number
+          description: Диаметр монеты
+        startYear:
+          type: string
+          format: date
+          pattern: "[0-9]{4}"
+          description: Первый год выпуска монеты
+        stopYear:
+          type: string
+          format: date
+          pattern: "YYYY"
+          description: Последний год выпуска монеты
+
+    BaseCID:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        description:
+          type: string
+          description: Описание монеты
+        issueYear:
+          type: string
+          pattern: "[0-9]{4}"
+          description: Год выпуска
+        mint:
+          type: string
+          description: Монетный двор
+        copies:
+          type: integer
+          description: Тираж
+
+    Country:
+      type: string
+      description: 'Страна'
+      enum:
+        - Австралия
+        - Беларусь
+        - Великобритания
+        - Россия
+
+    Currency:
+      type: string
+      description: 'Валюта'
+      enum:
+        - RUS
+        - USA
+        - EUR
+        - CNY
+
+    Nominal:
+      type: integer
+      description: 'Номинал монеты'
+      enum:
+        - 1
+        - 2
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 50
+        - 100
+
+    CIBInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IBasicResponse'
+
+    CIBCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseCIB'
+
+    CIBCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IBasicRequest'
+        - $ref: '#/components/schemas/CIBRequestDebug'
+        - type: object
+          properties:
+            cib:
+              $ref: '#/components/schemas/CIBCreateObject'
+
+    CIBReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CIBId'
+
+    CIBReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IBasicRequest'
+        - $ref: '#/components/schemas/CIBRequestDebug'
+        - type: object
+          properties:
+            cib:
+              $ref: '#/components/schemas/CIBReadObject'
+
+    CIBUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseCIB'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CIBId'
+            lock:
+              $ref: '#/components/schemas/CILock'
+
+    CIBUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IBasicRequest'
+        - $ref: '#/components/schemas/CIBRequestDebug'
+        - type: object
+          properties:
+            cib:
+              $ref: '#/components/schemas/CIBUpdateObject'
+
+    CIBDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CIBId'
+            lock:
+              $ref: '#/components/schemas/CILock'
+
+    CIBDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IBasicRequest'
+        - $ref: '#/components/schemas/CIBRequestDebug'
+        - type: object
+          properties:
+            cib:
+              $ref: '#/components/schemas/CIBDeleteObject'
+
+    CIBSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в карточках
+        ownerId:
+          $ref: '#/components/schemas/UserId'
+
+    CIBSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IBasicRequest'
+        - $ref: '#/components/schemas/CIBRequestDebug'
+        - type: object
+          properties:
+            cibFilter:
+              $ref: '#/components/schemas/CIBSearchFilter'
+
+    CIBResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseCIB'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/CIBId'
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            lock:
+              $ref: '#/components/schemas/CILock'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/CIPermissions'
+
+    CIBResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом карточки монеты
+          properties:
+            cib:
+              $ref: '#/components/schemas/CIBResponseObject'
+
+    CIBResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            cibs:
+              type: array
+              items:
+                $ref: '#/components/schemas/CIBResponseObject'
+
+    CIBCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IBasicResponse'
+        - $ref: '#/components/schemas/CIBResponseSingle'
+
+    CIBReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IBasicResponse'
+        - $ref: '#/components/schemas/CIBResponseSingle'
+
+    CIBUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IBasicResponse'
+        - $ref: '#/components/schemas/CIBResponseSingle'
+
+    CIBDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IBasicResponse'
+        - $ref: '#/components/schemas/CIBResponseSingle'
+
+    CIBSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IBasicResponse'
+        - $ref: '#/components/schemas/CIBResponseMulti'
+
+    CIDInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IDetailResponse'
+
+    CIDCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseCID'
+
+    CIDCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IDetailRequest'
+        - $ref: '#/components/schemas/CIDRequestDebug'
+        - type: object
+          properties:
+            cid:
+              $ref: '#/components/schemas/CIDCreateObject'
+
+    CIDReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CIDId'
+
+    CIDReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IDetailRequest'
+        - $ref: '#/components/schemas/CIDRequestDebug'
+        - type: object
+          properties:
+            cid:
+              $ref: '#/components/schemas/CIDReadObject'
+
+    CIDUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseCID'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CIDId'
+            lock:
+              $ref: '#/components/schemas/CILock'
+
+    CIDUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IDetailRequest'
+        - $ref: '#/components/schemas/CIDRequestDebug'
+        - type: object
+          properties:
+            cid:
+              $ref: '#/components/schemas/CIDUpdateObject'
+
+    CIDDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/CIDId'
+            lock:
+              $ref: '#/components/schemas/CILock'
+
+    CIDDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IDetailRequest'
+        - $ref: '#/components/schemas/CIDRequestDebug'
+        - type: object
+          properties:
+            cid:
+              $ref: '#/components/schemas/CIDDeleteObject'
+
+    CIDSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка, которая будет искаться в карточках
+        ownerId:
+          $ref: '#/components/schemas/UserId'
+
+    CIDSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IDetailRequest'
+        - $ref: '#/components/schemas/CIDRequestDebug'
+        - type: object
+          properties:
+            cidFilter:
+              $ref: '#/components/schemas/CIDSearchFilter'
+
+    CIDResponseObject:
+      allOf:
+        - type: object
+          properties:
+            cibId:
+              $ref: '#/components/schemas/CIBId'
+        - $ref: '#/components/schemas/BaseCID'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/CIDId'
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            lock:
+              $ref: '#/components/schemas/CILock'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/CIPermissions'
+
+    CIDResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом карточки монеты
+          properties:
+            cid:
+              $ref: '#/components/schemas/CIDResponseObject'
+
+    CIDResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            cids:
+              type: array
+              items:
+                $ref: '#/components/schemas/CIDResponseObject'
+
+    CIDCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IDetailResponse'
+        - $ref: '#/components/schemas/CIDResponseSingle'
+
+    CIDReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IDetailResponse'
+        - $ref: '#/components/schemas/CIDResponseSingle'
+
+    CIDUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IDetailResponse'
+        - $ref: '#/components/schemas/CIDResponseSingle'
+
+    CIDDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IDetailResponse'
+        - $ref: '#/components/schemas/CIDResponseSingle'
+
+    CIDSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IDetailResponse'
+        - $ref: '#/components/schemas/CIDResponseMulti'
+
+    # STUBS ======================
+    CIRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    CIBRequestDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/CIRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/CIBRequestDebugStubs'
+
+    CIDRequestDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/CIRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/CIDRequestDebugStubs'
+
+    CIBRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badTitle
+        - badDescription
+        - badCountry
+        - badCurrency
+        - badNominal
+        - badMaterial
+        - badDiameter
+        - badStartYear
+        - badStopYear
+        - cannotDelete
+        - badSearchString
+
+    CIDRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badDescription
+        - badMint
+        - badCopies
+        - badIssueYear
+        - cannotDelete
+        - badSearchString

@@ -31,3 +31,8 @@ Groschenberry -- это приложение для нумизматов, поз
    1. [Тестовые сценарии](./docs/05-testing/01-tests-list.md)
 
 # Структура проекта
+
+### Транспортные модели, API
+
+1. [specs](specs) - описание API в форме OpenAPI-спецификаций
+2. [groschenberry-api-v1-kmp](groschenberry-be/groschenberry-api-v1-kmp) - Генерация транспортных моделей с KMP

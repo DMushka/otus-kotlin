@@ -1,10 +1,10 @@
 # API
 
-## Описание сущности CoinBaseInformation (общаая карточка монеты)
+## Описание сущности CoinBasicInformation (общая карточка монеты)
 
 1. Id - Уникальный идентификатор в системе
 2. Title - Название 
-3. Ciuntry - Страна 
+3. Country - Страна 
 4. Currency - Валюта 
 5. Nominal - Номинал 
 6. Material - Материал 
