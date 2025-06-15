@@ -1,4 +1,4 @@
-rootProject.name = "my-compose-project"
+rootProject.name = "groschenberry-be"
 
 dependencyResolutionManagement {
     versionCatalogs {

@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.plugin
+package ru.otus.otuskotlin.groschenberry.plugin
 
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Plugin
