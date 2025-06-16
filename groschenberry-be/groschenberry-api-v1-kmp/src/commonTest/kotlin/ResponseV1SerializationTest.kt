@@ -15,8 +15,8 @@ class ResponseV1SerializationTest {
         cib = CIBResponseObject(
             title = "cib title",
             description = "cib description",
-            country = Country.АВСТРАЛИЯ,
-            currency = Currency.RUS,
+            country = Country.AUSTRALIA,
+            currency = Currency.RUB,
             nominal = Nominal._1,
             material = "медь",
             diameter = 1.0,

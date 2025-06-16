@@ -420,17 +420,17 @@ components:
       type: string
       description: 'Страна'
       enum:
-        - Австралия
-        - Беларусь
-        - Великобритания
-        - Россия
+        - Australia
+        - Belarus
+        - Great Britain
+        - Russia
 
     Currency:
       type: string
       description: 'Валюта'
       enum:
-        - RUS
-        - USA
+        - RUB
+        - USD
         - EUR
         - CNY
 
@@ -760,7 +760,7 @@ components:
         - test
         - stub
 
-    CIBRequestDebug:
+    CIBDebug:
       type: object
       properties:
         mode:
@@ -768,13 +768,25 @@ components:
         stub:
           $ref: '#/components/schemas/CIBRequestDebugStubs'
 
-    CIDRequestDebug:
+    CIBRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/CIBDebug'
+
+    CIDDebug:
       type: object
       properties:
         mode:
           $ref: '#/components/schemas/CIRequestDebugMode'
         stub:
           $ref: '#/components/schemas/CIDRequestDebugStubs'
+
+    CIDRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/CIDDebug'
 
     CIBRequestDebugStubs:
       type: string

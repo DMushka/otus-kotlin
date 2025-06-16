@@ -2,6 +2,7 @@ package com.otus.otuskotlin.groschenberry.api.v1
 
 import com.otus.otuskotlin.groschenberry.api.v1.models.CIBCreateObject
 import com.otus.otuskotlin.groschenberry.api.v1.models.CIBCreateRequest
+import com.otus.otuskotlin.groschenberry.api.v1.models.CIBDebug
 import com.otus.otuskotlin.groschenberry.api.v1.models.CIRequestDebugMode
 import com.otus.otuskotlin.groschenberry.api.v1.models.CIBRequestDebugStubs
 import com.otus.otuskotlin.groschenberry.api.v1.models.Country
@@ -14,13 +15,15 @@ import kotlin.test.assertEquals
 
 class RequestV1SerializationTest {
     private val request: IBasicRequest = CIBCreateRequest(
-        mode = CIRequestDebugMode.STUB,
-        stub = CIBRequestDebugStubs.BAD_TITLE,
+        debug = CIBDebug (
+            mode = CIRequestDebugMode.STUB,
+            stub = CIBRequestDebugStubs.BAD_TITLE
+        ),
         cib = CIBCreateObject(
             title = "cib title",
             description = "cib description",
-            country = Country.АВСТРАЛИЯ,
-            currency = Currency.RUS,
+            country = Country.AUSTRALIA,
+            currency = Currency.RUB,
             nominal = Nominal._1,
             material = "медь",
             diameter = 1.0,

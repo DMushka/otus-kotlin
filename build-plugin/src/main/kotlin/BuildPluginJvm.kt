@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.groschenberry.plugin
+package com.otus.otuskotlin.groschenberry.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
