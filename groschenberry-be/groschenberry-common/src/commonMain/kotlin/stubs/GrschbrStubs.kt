@@ -16,5 +16,8 @@ enum class GrschbrStubs {
     BAD_STOP_YEAR,
     CANNOT_DELETE,
     BAD_SEARCH_STRING,
+    BAD_MINT,
+    BAD_COPIES,
+    BAD_ISSUE_YEAR,
     DB_ERROR,
 }

@@ -1,9 +1,7 @@
 package com.otus.otuskotlin.groschenberry.common.models
 
-import kotlinx.serialization.SerialName
-
 data class GrschbrCIB(
-    var id: GrschbrCIBId = GrschbrCIBId.NONE,
+    var id: GrschbrCIId = GrschbrCIId.NONE,
     var title: String = "",
     var description: String = "",
     var lock: GrschbrCILock = GrschbrCILock.NONE,

@@ -115,18 +115,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/CIBSearchResponse'
 
-  /ci/detail/{cibId}/create:
+  /ci/detail/create:
     post:
       tags:
         - cid
       summary: Create detail coin information
       operationId: cidCreate
-      parameters:
-        - name: cibId
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/CIBId'
       requestBody:
         description: Request body
         content:
@@ -141,18 +135,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CIDCreateResponse'
-  /ci/detail/{cibId}/read:
+  /ci/detail/read:
     post:
       tags:
         - cid
       summary: Read detail coin information
       operationId: cidRead
-      parameters:
-        - name: cibId
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/CIBId'
       requestBody:
         description: Request body
         content:
@@ -167,18 +155,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CIDReadResponse'
-  /ci/detail/{cibId}/update:
+  /ci/detail/update:
     post:
       tags:
         - cid
       summary: Update detail coin information
       operationId: cidUpdate
-      parameters:
-        - name: cibId
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/CIBId'
       requestBody:
         description: Request body
         content:
@@ -193,18 +175,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CIDUpdateResponse'
-  /ci/detail/{cibId}/delete:
+  /ci/detail/delete:
     post:
       tags:
         - cid
       summary: Delete detail coin information
       operationId: cidDelete
-      parameters:
-        - name: cibId
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/CIBId'
       requestBody:
         description: Request body
         content:
@@ -350,6 +326,7 @@ components:
       description: Идентификатор пользователя
     CIBId:
       type: string
+      nullable: true
       description: Идентификатор карточки монеты с основной информацией
     CIDId:
       type: string
@@ -401,6 +378,8 @@ components:
     BaseCID:
       type: object
       description: Объект описывает свойства, одинаковые для create и update
+      required:
+        - cibId
       properties:
         description:
           type: string
@@ -415,6 +394,8 @@ components:
         copies:
           type: integer
           description: Тираж
+        cibId:
+          $ref: '#/components/schemas/CIBId'
 
     Country:
       type: string
@@ -518,7 +499,7 @@ components:
             cib:
               $ref: '#/components/schemas/CIBDeleteObject'
 
-    CIBSearchFilter:
+    CISearchFilter:
       type: object
       description: Набор фильтров для поиска
       properties:
@@ -534,8 +515,8 @@ components:
         - $ref: '#/components/schemas/CIBRequestDebug'
         - type: object
           properties:
-            cibFilter:
-              $ref: '#/components/schemas/CIBSearchFilter'
+            ciFilter:
+              $ref: '#/components/schemas/CISearchFilter'
 
     CIBResponseObject:
       allOf:
@@ -668,31 +649,17 @@ components:
             cid:
               $ref: '#/components/schemas/CIDDeleteObject'
 
-    CIDSearchFilter:
-      type: object
-      description: Набор фильтров для поиска
-      properties:
-        searchString:
-          type: string
-          description: Поисковая строка, которая будет искаться в карточках
-        ownerId:
-          $ref: '#/components/schemas/UserId'
-
     CIDSearchRequest:
       allOf:
         - $ref: '#/components/schemas/IDetailRequest'
         - $ref: '#/components/schemas/CIDRequestDebug'
         - type: object
           properties:
-            cidFilter:
-              $ref: '#/components/schemas/CIDSearchFilter'
+            ciFilter:
+              $ref: '#/components/schemas/CISearchFilter'
 
     CIDResponseObject:
       allOf:
-        - type: object
-          properties:
-            cibId:
-              $ref: '#/components/schemas/CIBId'
         - $ref: '#/components/schemas/BaseCID'
         - type: object
           description: Объект, который возвращается в ответе бэкенда

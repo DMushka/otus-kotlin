@@ -5,7 +5,7 @@ import com.otus.otuskotlin.groschenberry.common.models.*
 object GrschbrCIBStubCoins {
     val COIN1: GrschbrCIB
         get() = GrschbrCIB(
-            id = GrschbrCIBId("111"),
+            id = GrschbrCIId("111"),
             title = "Монета 1",
             description = "Монета стандартная круглая",
             country = GrschbrCountry.RUSSIA,

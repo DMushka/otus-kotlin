@@ -6,42 +6,81 @@ import com.otus.otuskotlin.groschenberry.common.exceptions.UnknownGrschbrCommand
 import com.otus.otuskotlin.groschenberry.common.models.*
 
 fun GrschbrContext.toTransportCIB(): IBasicResponse = when (val cmd = command) {
-    GrschbrCommand.CREATE -> toTransportCreate()
-    GrschbrCommand.READ -> toTransportRead()
-    GrschbrCommand.UPDATE -> toTransportUpdate()
-    GrschbrCommand.DELETE -> toTransportDelete()
-    GrschbrCommand.SEARCH -> toTransportSearch()
+    GrschbrCommand.CREATE -> toTransportCIBCreate()
+    GrschbrCommand.READ -> toTransportCIBRead()
+    GrschbrCommand.UPDATE -> toTransportCIBUpdate()
+    GrschbrCommand.DELETE -> toTransportCIBDelete()
+    GrschbrCommand.SEARCH -> toTransportCIBSearch()
     GrschbrCommand.NONE -> throw UnknownGrschbrCommand(cmd)
 }
 
-fun GrschbrContext.toTransportCreate() = CIBCreateResponse(
+fun GrschbrContext.toTransportCID(): IDetailResponse = when (val cmd = command) {
+    GrschbrCommand.CREATE -> toTransportCIDCreate()
+    GrschbrCommand.READ -> toTransportCIDRead()
+    GrschbrCommand.UPDATE -> toTransportCIDUpdate()
+    GrschbrCommand.DELETE -> toTransportCIDDelete()
+    GrschbrCommand.SEARCH -> toTransportCIDSearch()
+    GrschbrCommand.NONE -> throw UnknownGrschbrCommand(cmd)
+}
+
+fun GrschbrContext.toTransportCIBCreate() = CIBCreateResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
     cib = cibResponse.toTransportCIB()
 )
 
-fun GrschbrContext.toTransportRead() = CIBReadResponse(
+fun GrschbrContext.toTransportCIDCreate() = CIDCreateResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
+    cid = cidResponse.toTransportCID()
+)
+
+fun GrschbrContext.toTransportCIBRead() = CIBReadResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
     cib = cibResponse.toTransportCIB()
 )
 
-fun GrschbrContext.toTransportUpdate() = CIBUpdateResponse(
+fun GrschbrContext.toTransportCIDRead() = CIDReadResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
+    cid = cidResponse.toTransportCID()
+)
+
+fun GrschbrContext.toTransportCIBUpdate() = CIBUpdateResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
     cib = cibResponse.toTransportCIB()
 )
 
-fun GrschbrContext.toTransportDelete() = CIBDeleteResponse(
+fun GrschbrContext.toTransportCIDUpdate() = CIDUpdateResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
+    cid = cidResponse.toTransportCID()
+)
+
+fun GrschbrContext.toTransportCIBDelete() = CIBDeleteResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
     cib = cibResponse.toTransportCIB()
 )
 
-fun GrschbrContext.toTransportSearch() = CIBSearchResponse(
+fun GrschbrContext.toTransportCIDDelete() = CIDDeleteResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
+    cid = cidResponse.toTransportCID()
+)
+
+fun GrschbrContext.toTransportCIBSearch() = CIBSearchResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
     cibs = cibsResponse.toTransportCIB()
+)
+
+fun GrschbrContext.toTransportCIDSearch() = CIDSearchResponse(
+    result = state.toResult(),
+    errors = errors.toTransportErrors(),
+    cids = cidsResponse.toTransportCID()
 )
 
 fun List<GrschbrCIB>.toTransportCIB(): List<CIBResponseObject>? = this
@@ -49,12 +88,17 @@ fun List<GrschbrCIB>.toTransportCIB(): List<CIBResponseObject>? = this
     .toList()
     .takeIf { it.isNotEmpty() }
 
+fun List<GrschbrCID>.toTransportCID(): List<CIDResponseObject>? = this
+    .map { it.toTransportCID() }
+    .toList()
+    .takeIf { it.isNotEmpty() }
+
 fun GrschbrCIB.toTransportCIB(): CIBResponseObject = CIBResponseObject(
-    id = id.toTransportCIB(),
+    id = id.toTransportCI(),
     title = title.takeIf { it.isNotBlank() },
     description = description.takeIf { it.isNotBlank() },
-    country = this.country.toTransport(),
-    currency = this.currency.toTransport(),
+    country = this.country.toTransportCIB(),
+    currency = this.currency.toTransportCIB(),
     nominal = this.nominal.toTransportCIB(),
     material = this.material.takeIf { it.isNotBlank() },
     diameter = this.diameter.takeIf { it != 0.0 },
@@ -63,7 +107,17 @@ fun GrschbrCIB.toTransportCIB(): CIBResponseObject = CIBResponseObject(
     permissions = permissionsClient.toTransportCIB(),
 )
 
-internal fun GrschbrCIBId.toTransportCIB() = takeIf { it != GrschbrCIBId.NONE }?.asString()
+fun GrschbrCID.toTransportCID(): CIDResponseObject = CIDResponseObject(
+    id = id.toTransportCI(),
+    description = description.takeIf { it.isNotBlank() },
+    mint = this.mint.takeIf { it.isNotBlank() },
+    copies = this.copies.takeIf { it != 0 },
+    issueYear = this.issueYear.takeIf { it != "0000"},
+    permissions = permissionsClient.toTransportCIB(),
+    cibId = this.cibId.toTransportCI(),
+)
+
+internal fun GrschbrCIId.toTransportCI() = takeIf { it != GrschbrCIId.NONE }?.asString()
 
 private fun Set<GrschbrCIPermissionClient>.toTransportCIB(): Set<CIPermissions>? = this
     .map { it.toTransportCI() }
@@ -88,7 +142,7 @@ private fun GrschbrError.toTransportCI() = Error(
     message = message.takeIf { it.isNotBlank() },
 )
 
-internal fun GrschbrCountry.toTransport(): Country? = when (this) {
+internal fun GrschbrCountry.toTransportCIB(): Country? = when (this) {
     GrschbrCountry.AUSTRALIA -> Country.AUSTRALIA
     GrschbrCountry.BELARUS -> Country.BELARUS
     GrschbrCountry.GREAT_BRITAIN -> Country.GREAT_BRITAIN
@@ -96,7 +150,7 @@ internal fun GrschbrCountry.toTransport(): Country? = when (this) {
     GrschbrCountry.NONE -> null
 }
 
-internal fun GrschbrCurrency.toTransport(): Currency? = when (this) {
+internal fun GrschbrCurrency.toTransportCIB(): Currency? = when (this) {
     GrschbrCurrency.RUB -> Currency.RUB
     GrschbrCurrency.EUR -> Currency.EUR
     GrschbrCurrency.USD -> Currency.USD

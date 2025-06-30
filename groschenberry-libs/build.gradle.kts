@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
 }
 
-group = "com.otus.otuskotlin.groschenberry"
+group = "com.otus.otuskotlin.groschenberry.libs"
 version = "0.0.1"
 
 allprojects {
@@ -20,14 +20,13 @@ subprojects {
 ext {
     val specDir = layout.projectDirectory.dir("../specs")
     set("spec-v1", specDir.file("specs-ci-v1.yaml").toString())
-    set("spec-ci-log", specDir.file("specs-ci-log.yaml").toString())
 }
 
 tasks {
-    arrayOf("build", "clean", "check").forEach { tsk ->
-        register(tsk) {
+    arrayOf("build", "clean", "check").forEach {tsk ->
+        register(tsk ) {
             group = "build"
-            dependsOn(subprojects.map { it.getTasksByName(tsk, false) })
+            dependsOn(subprojects.map {  it.getTasksByName(tsk,false)})
         }
     }
 }

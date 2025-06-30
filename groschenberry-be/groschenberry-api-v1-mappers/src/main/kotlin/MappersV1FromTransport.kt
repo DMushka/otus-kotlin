@@ -3,6 +3,7 @@ package com.otus.otuskotlin.groschenberry.mappers.v1
 import com.otus.otuskotlin.groschenberry.api.v1.models.*
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCILock
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrWorkMode
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
@@ -17,15 +18,27 @@ fun GrschbrContext.fromTransport(request: IBasicRequest) = when (request) {
     else -> throw UnknownRequestClass(request.javaClass)
 }
 
-private fun String?.toCIBId() = this?.let { GrschbrCIBId(it) } ?: GrschbrCIBId.NONE
-private fun String?.toCIBLock() = this?.let { GrschbrCILock(it) } ?: GrschbrCILock.NONE
+fun GrschbrContext.fromTransport(request: IDetailRequest) = when (request) {
+    is CIDCreateRequest -> fromTransport(request)
+    is CIDReadRequest -> fromTransport(request)
+    is CIDUpdateRequest -> fromTransport(request)
+    is CIDDeleteRequest -> fromTransport(request)
+    is CIDSearchRequest -> fromTransport(request)
+    else -> throw UnknownRequestClass(request.javaClass)
+}
 
-private fun CIBDebug?.transportToWorkMode(): GrschbrWorkMode = when (this?.mode) {
+private fun String?.toCIId() = this?.let { GrschbrCIId(it) } ?: GrschbrCIId.NONE
+private fun String?.toCIBLock() = this?.let { GrschbrCILock(it) } ?: GrschbrCILock.NONE
+private fun String?.toCIDLock() = this?.let { GrschbrCILock(it) } ?: GrschbrCILock.NONE
+
+private fun CIRequestDebugMode?.transportToWorkMode(): GrschbrWorkMode = when (this) {
     CIRequestDebugMode.PROD -> GrschbrWorkMode.PROD
     CIRequestDebugMode.TEST -> GrschbrWorkMode.TEST
     CIRequestDebugMode.STUB -> GrschbrWorkMode.STUB
     null -> GrschbrWorkMode.PROD
 }
+
+private fun CIBDebug?.transportToWorkMode(): GrschbrWorkMode = this?.mode.transportToWorkMode()
 
 private fun CIBDebug?.transportToStubCase(): GrschbrStubs = when (this?.stub) {
     CIBRequestDebugStubs.SUCCESS -> GrschbrStubs.SUCCESS
@@ -45,10 +58,32 @@ private fun CIBDebug?.transportToStubCase(): GrschbrStubs = when (this?.stub) {
     null -> GrschbrStubs.NONE
 }
 
+private fun CIDDebug?.transportToWorkMode(): GrschbrWorkMode = this?.mode.transportToWorkMode()
+
+private fun CIDDebug?.transportToStubCase(): GrschbrStubs = when (this?.stub) {
+    CIDRequestDebugStubs.SUCCESS -> GrschbrStubs.SUCCESS
+    CIDRequestDebugStubs.NOT_FOUND -> GrschbrStubs.NOT_FOUND
+    CIDRequestDebugStubs.BAD_ID -> GrschbrStubs.BAD_ID
+    CIDRequestDebugStubs.BAD_DESCRIPTION -> GrschbrStubs.BAD_DESCRIPTION
+    CIDRequestDebugStubs.CANNOT_DELETE -> GrschbrStubs.CANNOT_DELETE
+    CIDRequestDebugStubs.BAD_SEARCH_STRING -> GrschbrStubs.BAD_SEARCH_STRING
+    CIDRequestDebugStubs.BAD_MINT -> GrschbrStubs.BAD_MINT
+    CIDRequestDebugStubs.BAD_COPIES -> GrschbrStubs.BAD_COPIES
+    CIDRequestDebugStubs.BAD_ISSUE_YEAR -> GrschbrStubs.BAD_ISSUE_YEAR
+    null -> GrschbrStubs.NONE
+}
+
 fun GrschbrContext.fromTransport(request: CIBCreateRequest) {
     command = GrschbrCommand.CREATE
     cibRequest = request.cib?.toInternal() ?: GrschbrCIB()
-    workMode = request.debug.transportToWorkMode()
+    workMode = request.debug?.mode.transportToWorkMode()
+    stubCase = request.debug.transportToStubCase()
+}
+
+fun GrschbrContext.fromTransport(request: CIDCreateRequest) {
+    command = GrschbrCommand.CREATE
+    cidRequest = request.cid?.toInternal() ?: GrschbrCID()
+    workMode = request.debug?.mode.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
@@ -59,15 +94,35 @@ fun GrschbrContext.fromTransport(request: CIBReadRequest) {
     stubCase = request.debug.transportToStubCase()
 }
 
+fun GrschbrContext.fromTransport(request: CIDReadRequest) {
+    command = GrschbrCommand.READ
+    cidRequest = request.cid.toInternal()
+    workMode = request.debug.transportToWorkMode()
+    stubCase = request.debug.transportToStubCase()
+}
+
 private fun CIBReadObject?.toInternal(): GrschbrCIB = if (this != null) {
-    GrschbrCIB(id = id.toCIBId())
+    GrschbrCIB(id = id.toCIId())
 } else {
     GrschbrCIB()
+}
+
+private fun CIDReadObject?.toInternal(): GrschbrCID = if (this != null) {
+    GrschbrCID(id = id.toCIId())
+} else {
+    GrschbrCID()
 }
 
 fun GrschbrContext.fromTransport(request: CIBUpdateRequest) {
     command = GrschbrCommand.UPDATE
     cibRequest = request.cib?.toInternal() ?: GrschbrCIB()
+    workMode = request.debug.transportToWorkMode()
+    stubCase = request.debug.transportToStubCase()
+}
+
+fun GrschbrContext.fromTransport(request: CIDUpdateRequest) {
+    command = GrschbrCommand.UPDATE
+    cidRequest = request.cid?.toInternal() ?: GrschbrCID()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
@@ -79,23 +134,46 @@ fun GrschbrContext.fromTransport(request: CIBDeleteRequest) {
     stubCase = request.debug.transportToStubCase()
 }
 
+fun GrschbrContext.fromTransport(request: CIDDeleteRequest) {
+    command = GrschbrCommand.DELETE
+    cidRequest = request.cid.toInternal()
+    workMode = request.debug.transportToWorkMode()
+    stubCase = request.debug.transportToStubCase()
+}
+
 private fun CIBDeleteObject?.toInternal(): GrschbrCIB = if (this != null) {
     GrschbrCIB(
-        id = id.toCIBId(),
+        id = id.toCIId(),
         lock = lock.toCIBLock(),
     )
 } else {
     GrschbrCIB()
 }
 
+private fun CIDDeleteObject?.toInternal(): GrschbrCID = if (this != null) {
+    GrschbrCID(
+        id = id.toCIId(),
+        lock = lock.toCIDLock(),
+    )
+} else {
+    GrschbrCID()
+}
+
 fun GrschbrContext.fromTransport(request: CIBSearchRequest) {
     command = GrschbrCommand.SEARCH
-    cibFilterRequest = request.cibFilter.toInternal()
+    ciFilterRequest = request.ciFilter.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-private fun CIBSearchFilter?.toInternal(): GrschbrCIFilter = GrschbrCIFilter(
+fun GrschbrContext.fromTransport(request: CIDSearchRequest) {
+    command = GrschbrCommand.SEARCH
+    ciFilterRequest = request.ciFilter.toInternal()
+    workMode = request.debug.transportToWorkMode()
+    stubCase = request.debug.transportToStubCase()
+}
+
+private fun CISearchFilter?.toInternal(): GrschbrCIFilter = GrschbrCIFilter(
     searchString = this?.searchString ?: ""
 )
 
@@ -111,8 +189,16 @@ private fun CIBCreateObject.toInternal(): GrschbrCIB = GrschbrCIB(
     stopYear = this.stopYear ?: "0000"
 )
 
+private fun CIDCreateObject.toInternal(): GrschbrCID = GrschbrCID(
+    description = this.description ?: "",
+    mint = this.mint ?: "",
+    copies = this.copies ?: 0,
+    issueYear = this.issueYear ?: "0000",
+    cibId = this.cibId.toCIId()
+)
+
 private fun CIBUpdateObject.toInternal(): GrschbrCIB = GrschbrCIB(
-    id = this.id.toCIBId(),
+    id = this.id.toCIId(),
     title = this.title ?: "",
     description = this.description ?: "",
     country = this.country.fromTransport(),
@@ -123,6 +209,16 @@ private fun CIBUpdateObject.toInternal(): GrschbrCIB = GrschbrCIB(
     startYear = this.startYear ?: "0000",
     stopYear = this.stopYear ?: "0000",
     lock = lock.toCIBLock(),
+)
+
+private fun CIDUpdateObject.toInternal(): GrschbrCID = GrschbrCID(
+    id = this.id.toCIId(),
+    description = this.description ?: "",
+    mint = this.mint ?: "",
+    copies = this.copies ?: 0,
+    issueYear = this.issueYear ?: "0000",
+    lock = lock.toCIDLock(),
+    cibId = this.cibId.toCIId()
 )
 
 private fun Country?.fromTransport(): GrschbrCountry = when (this) {
@@ -153,4 +249,3 @@ private fun Nominal?.fromTransport(): GrschbrNominal = when (this) {
     Nominal._100 -> GrschbrNominal._100
     null -> GrschbrNominal.NONE
 }
-

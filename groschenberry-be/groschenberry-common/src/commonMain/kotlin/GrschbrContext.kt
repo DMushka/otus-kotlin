@@ -14,10 +14,14 @@ data class GrschbrContext(
 
     var requestId: GrschbrRequestId = GrschbrRequestId.NONE,
     var timeStart: Instant = Instant.NONE,
-    var cibRequest: GrschbrCIB = GrschbrCIB(),
-    var cibFilterRequest: GrschbrCIFilter = GrschbrCIFilter(),
 
+    var cibRequest: GrschbrCIB = GrschbrCIB(),
     var cibResponse: GrschbrCIB = GrschbrCIB(),
     var cibsResponse: MutableList<GrschbrCIB> = mutableListOf(),
 
+    var cidRequest: GrschbrCID = GrschbrCID(),
+    var cidResponse: GrschbrCID = GrschbrCID(),
+    var cidsResponse: MutableList<GrschbrCID> = mutableListOf(),
+
+    var ciFilterRequest: GrschbrCIFilter = GrschbrCIFilter(),
     )

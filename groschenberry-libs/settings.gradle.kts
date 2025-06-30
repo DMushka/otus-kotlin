@@ -1,4 +1,4 @@
-rootProject.name = "groschenberry-be"
+rootProject.name = "groschenberry-libs"
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -24,12 +24,5 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
 }
 
-// Включает вот такую конструкцию
-//implementation(projects.m2l5Gradle.sub1.ssub1)
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-include(":groschenberry-api-v1-kmp")
-include(":groschenberry-api-v1-mappers")
-include(":groschenberry-api-log")
-include(":groschenberry-common")
-include(":groschenberry-stubs")
+include(":groschenberry-lib-logging-common")
+include(":groschenberry-lib-logging-logback")
