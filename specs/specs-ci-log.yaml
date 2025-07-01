@@ -38,6 +38,8 @@ components:
       title: Модель лога для микросервиса Groschenberry CI
       type: object
       properties:
+        ciType:
+          $ref: '#/components/schemas/CIType'
         requestId:
           type: string
         operation:
@@ -59,6 +61,11 @@ components:
               - $ref: '#/components/schemas/CIBLog'
               - $ref: '#/components/schemas/CIDLog'
 
+    CIType:
+      type: string
+      enum:
+        - basic
+        - detail
     GrschbrLogOperation:
       type: string
       enum:

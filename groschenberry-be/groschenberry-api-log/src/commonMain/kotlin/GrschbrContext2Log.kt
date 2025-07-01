@@ -18,6 +18,7 @@ private fun GrschbrContext.toGrschbrLog(): GrschbrCILogModel? {
     val cibNone = GrschbrCIB()
     val cidNone = GrschbrCID()
     return GrschbrCILogModel(
+        ciType = if (cidRequest != cidNone) CIType.DETAIL else CIType.BASIC,
         requestId = requestId.takeIf { it != GrschbrRequestId.NONE }?.asString(),
         requestCI = cidRequest.takeIf { it != cidNone }?.toLog() ?: cibRequest.takeIf { it != cibNone }?.toLog(),
         responseCI = cidResponse.takeIf { it != cidNone }?.toLog() ?: cibResponse.takeIf { it != cibNone }?.toLog(),
