@@ -17,7 +17,7 @@ import kotlin.reflect.KFunction
  * logger.info("My log")
  * ```
  */
-class GbrLoggerProvider(
+class GrbLoggerProvider(
     private val provider: (String) -> IGrbLogWrapper = { IGrbLogWrapper.DEFAULT }
 ) {
     /**
