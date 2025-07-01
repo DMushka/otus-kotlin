@@ -66,6 +66,7 @@ components:
       enum:
         - basic
         - detail
+        - other
     GrschbrLogOperation:
       type: string
       enum:
