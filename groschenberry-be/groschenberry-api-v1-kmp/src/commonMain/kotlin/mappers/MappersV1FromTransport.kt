@@ -1,4 +1,4 @@
-package com.otus.otuskotlin.groschenberry.mappers.v1
+package com.otus.otuskotlin.groschenberry.api.v1.mappers
 
 import com.otus.otuskotlin.groschenberry.api.v1.models.*
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
@@ -7,7 +7,6 @@ import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCILock
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrWorkMode
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
-import com.otus.otuskotlin.groschenberry.mappers.v1.exceptions.UnknownRequestClass
 
 fun GrschbrContext.fromTransport(request: IBasicRequest) = when (request) {
     is CIBCreateRequest -> fromTransport(request)
@@ -15,7 +14,6 @@ fun GrschbrContext.fromTransport(request: IBasicRequest) = when (request) {
     is CIBUpdateRequest -> fromTransport(request)
     is CIBDeleteRequest -> fromTransport(request)
     is CIBSearchRequest -> fromTransport(request)
-    else -> throw UnknownRequestClass(request.javaClass)
 }
 
 fun GrschbrContext.fromTransport(request: IDetailRequest) = when (request) {
@@ -24,7 +22,6 @@ fun GrschbrContext.fromTransport(request: IDetailRequest) = when (request) {
     is CIDUpdateRequest -> fromTransport(request)
     is CIDDeleteRequest -> fromTransport(request)
     is CIDSearchRequest -> fromTransport(request)
-    else -> throw UnknownRequestClass(request.javaClass)
 }
 
 private fun String?.toCIId() = this?.let { GrschbrCIId(it) } ?: GrschbrCIId.NONE

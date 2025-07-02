@@ -1,29 +1,13 @@
-import org.junit.Test
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIBCreateRequest
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIBCreateResponse
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIBDebug
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIRequestDebugMode
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIBRequestDebugStubs
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIDCreateRequest
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIDCreateResponse
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIDDebug
-import com.otus.otuskotlin.groschenberry.api.v1.models.CIDRequestDebugStubs
+package com.otus.otuskotlin.groschenberry.api.v1
+
+import com.otus.otuskotlin.groschenberry.api.v1.mappers.*
+import com.otus.otuskotlin.groschenberry.api.v1.models.*
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrCILock
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrCommand
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrError
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrRequestId
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrState
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrWorkMode
+import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
-import com.otus.otuskotlin.groschenberry.mappers.v1.fromTransport
-import com.otus.otuskotlin.groschenberry.mappers.v1.toTransportCIB
-import com.otus.otuskotlin.groschenberry.mappers.v1.toTransportCID
-import com.otus.otuskotlin.groschenberry.mappers.v1.toTransportCreateCIB
-import com.otus.otuskotlin.groschenberry.mappers.v1.toTransportCreateCID
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIDStub
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MapperTest {

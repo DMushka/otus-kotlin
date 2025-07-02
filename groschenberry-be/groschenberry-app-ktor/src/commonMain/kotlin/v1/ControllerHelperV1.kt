@@ -3,15 +3,13 @@ package com.otus.otuskotlin.groschenberry.app.ktor.v1
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
-import com.otus.otuskotlin.groschenberry.mappers.v1.fromTransport
-import com.otus.otuskotlin.groschenberry.mappers.v1.toTransportCIB
+import com.otus.otuskotlin.groschenberry.api.v1.mappers.*
 import com.otus.otuskotlin.groschenberry.api.v1.models.IBasicRequest
 import com.otus.otuskotlin.groschenberry.api.v1.models.IBasicResponse
 import com.otus.otuskotlin.groschenberry.api.v1.models.IDetailRequest
 import com.otus.otuskotlin.groschenberry.api.v1.models.IDetailResponse
 import com.otus.otuskotlin.groschenberry.app.common.controllerHelper
 import com.otus.otuskotlin.groschenberry.app.ktor.GrschbrAppSettings
-import com.otus.otuskotlin.groschenberry.mappers.v1.toTransportCID
 import kotlin.reflect.KClass
 
 suspend inline fun <reified Q : IBasicRequest, @Suppress("unused") reified R : IBasicResponse> ApplicationCall.processCIB(

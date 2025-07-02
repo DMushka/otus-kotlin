@@ -2,7 +2,6 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 import io.ktor.plugin.features.*
-import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 
 plugins {
@@ -58,11 +57,11 @@ kotlin {
 //                В Application.main добавить `install(DoubleReceive)`
 //                implementation("io.ktor:ktor-server-double-receive:${libs.versions.ktor.get()}")
 
-                implementation(project(":groschenberry-common"))
-                implementation(project(":groschenberry-app-common"))
-                implementation(project(":groschenberry-biz"))
+                implementation(projects.groschenberryCommon)
+                implementation(projects.groschenberryAppCommon)
+                implementation(projects.groschenberryBiz)
 
-                // v1 api
+                // v2 api
                 implementation(projects.groschenberryApiV1Kmp)
 
                 // Stubs
@@ -75,9 +74,7 @@ kotlin {
                 // logging
                 implementation(projects.groschenberryApiLog)
                 implementation("com.otus.otuskotlin.groschenberry.libs:groschenberry-lib-logging-common")
-                implementation("com.otus.otuskotlin.groschenberry.libs:groschenberry-lib-logging-logback")
                 implementation("com.otus.otuskotlin.groschenberry.libs:groschenberry-lib-logging-kermit")
-
             }
         }
 
@@ -102,10 +99,11 @@ kotlin {
                 implementation(libs.ktor.server.headers.default)
 
                 implementation(libs.logback)
-       
+
                 // transport models
                 implementation(projects.groschenberryApiV1Kmp)
 
+                // logging
                 implementation("com.otus.otuskotlin.groschenberry.libs:groschenberry-lib-logging-logback")
 
             }

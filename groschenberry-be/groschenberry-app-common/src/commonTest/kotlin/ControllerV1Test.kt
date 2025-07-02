@@ -1,8 +1,7 @@
 package com.otus.otuskotlin.groschenberry.app.common
 
 import kotlinx.coroutines.test.runTest
-import com.otus.otuskotlin.groschenberry.mappers.v1.fromTransport
-import com.otus.otuskotlin.groschenberry.mappers.v1.toTransportCIB
+import com.otus.otuskotlin.groschenberry.api.v1.mappers.*
 import com.otus.otuskotlin.groschenberry.api.v1.models.*
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
 import com.otus.otuskotlin.groschenberry.common.GrschbrCorSettings

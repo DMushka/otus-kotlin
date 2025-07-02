@@ -25,7 +25,6 @@ kotlin {
                 implementation(libs.coroutines.test)
 
                 implementation(projects.groschenberryApiV1Kmp)
-                implementation(projects.groschenberryApiV1Mappers)
             }
         }
 

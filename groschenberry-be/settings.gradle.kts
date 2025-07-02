@@ -29,7 +29,6 @@ plugins {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include(":groschenberry-api-v1-kmp")
-include(":groschenberry-api-v1-mappers")
 include(":groschenberry-api-log")
 include(":groschenberry-common")
 include(":groschenberry-app-common")

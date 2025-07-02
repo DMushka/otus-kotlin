@@ -1,4 +1,4 @@
-package com.otus.otuskotlin.groschenberry.mappers.v1
+package com.otus.otuskotlin.groschenberry.api.v1.mappers
 
 import com.otus.otuskotlin.groschenberry.api.v1.models.*
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
