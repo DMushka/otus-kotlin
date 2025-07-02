@@ -9,8 +9,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import com.otus.otuskotlin.groschenberry.api.v1.apiV1Mapper
 import com.otus.otuskotlin.groschenberry.app.ktor.plugins.initAppSettings
-import com.otus.otuskotlin.groschenberry.app.ktor.v1.ciBasic
-import com.otus.otuskotlin.groschenberry.app.ktor.v1.ciDetail
+import com.otus.otuskotlin.groschenberry.app.ktor.v1.ci
 
 fun Application.module(
     appSettings: GrschbrAppSettings = initAppSettings()
@@ -34,17 +33,11 @@ fun Application.module(
         get("/") {
             call.respondText("Hello, world!")
         }
-        route("ci/basic") {
+        route("ci") {
             install(ContentNegotiation) {
                 json(apiV1Mapper)
             }
-            ciBasic(appSettings)
-        }
-        route("ci/detail") {
-            install(ContentNegotiation) {
-                json(apiV1Mapper)
-            }
-            ciDetail(appSettings)
+            ci(appSettings)
         }
     }
 }

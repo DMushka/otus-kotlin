@@ -6,8 +6,10 @@ import io.ktor.server.application.call
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 
-fun Route.ciBasic(appSettings: GrschbrAppSettings) {
-    route("ci/basic") {
+fun Route.ci(appSettings: GrschbrAppSettings) {
+
+    route("basic") {
+
         post("create") {
             call.createCIB(appSettings)
         }
@@ -24,10 +26,8 @@ fun Route.ciBasic(appSettings: GrschbrAppSettings) {
             call.searchCIB(appSettings)
         }
     }
-}
 
-fun Route.ciDetail(appSettings: GrschbrAppSettings) {
-    route("ci/detail") {
+    route("detail") {
         post("create") {
             call.createCID(appSettings)
         }

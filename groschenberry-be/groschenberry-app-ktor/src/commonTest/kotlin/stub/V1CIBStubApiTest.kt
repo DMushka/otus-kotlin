@@ -40,14 +40,14 @@ class V1CIBStubApiTest {
     ) { response ->
         val responseObj = response.body<CIBCreateResponse>()
         assertEquals(200, response.status.value)
-        assertEquals("666", responseObj.cib?.id)
+        assertEquals("111", responseObj.cib?.id)
     }
 
     @Test
     fun read() = v1CIBTestApplication(
         func = "read",
         request = CIBReadRequest(
-            cib = CIBReadObject("666"),
+            cib = CIBReadObject("111"),
             debug = CIBDebug(
                 mode = CIRequestDebugMode.STUB,
                 stub = CIBRequestDebugStubs.SUCCESS
@@ -56,7 +56,7 @@ class V1CIBStubApiTest {
     ) { response ->
         val responseObj = response.body<CIBReadResponse>()
         assertEquals(200, response.status.value)
-        assertEquals("666", responseObj.cib?.id)
+        assertEquals("111", responseObj.cib?.id)
     }
 
     @Test
@@ -64,7 +64,7 @@ class V1CIBStubApiTest {
         func = "update",
         request = CIBUpdateRequest(
             cib = CIBUpdateObject(
-                id = "666",
+                id = "111",
                 title = "Монета 1",
                 description = "Монета стандартная круглая",
                 country = Country.RUSSIA,
@@ -83,7 +83,7 @@ class V1CIBStubApiTest {
     ) { response ->
         val responseObj = response.body<CIBUpdateResponse>()
         assertEquals(200, response.status.value)
-        assertEquals("666", responseObj.cib?.id)
+        assertEquals("111", responseObj.cib?.id)
     }
 
     @Test
@@ -91,7 +91,7 @@ class V1CIBStubApiTest {
         func = "delete",
         request = CIBDeleteRequest(
             cib = CIBDeleteObject(
-                id = "666",
+                id = "111",
                 lock = "123"
             ),
             debug = CIBDebug(
@@ -102,7 +102,7 @@ class V1CIBStubApiTest {
     ) { response ->
         val responseObj = response.body<CIBDeleteResponse>()
         assertEquals(200, response.status.value)
-        assertEquals("666", responseObj.cib?.id)
+        assertEquals("111", responseObj.cib?.id)
     }
 
     @Test
@@ -118,7 +118,7 @@ class V1CIBStubApiTest {
     ) { response ->
         val responseObj = response.body<CIBSearchResponse>()
         assertEquals(200, response.status.value)
-        assertEquals("d-666-01", responseObj.cibs?.first()?.id)
+        assertEquals("111-01", responseObj.cibs?.first()?.id)
     }
 
     private inline fun <reified T: IBasicRequest> v1CIBTestApplication(
@@ -132,6 +132,7 @@ class V1CIBStubApiTest {
                 json(apiV1Mapper)
             }
         }
+
         val response = client.post("/ci/basic/$func") {
             contentType(ContentType.Application.Json)
             setBody(request)
