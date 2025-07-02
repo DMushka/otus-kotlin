@@ -128,7 +128,7 @@ tasks {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 
-    /*val linkReleaseExecutableLinuxX64 by getting(KotlinNativeLink::class)
+    val linkReleaseExecutableLinuxX64 by getting(KotlinNativeLink::class)
     val nativeFileX64 = linkReleaseExecutableLinuxX64.binary.outputFile
     val linuxX64ProcessResources by getting(ProcessResources::class)
 
@@ -139,7 +139,7 @@ tasks {
         from(Dockerfile.From("ubuntu:22.04").withPlatform("linux/amd64"))
         doFirst {
             copy {
-                //from(nativeFileX64)
+                from(nativeFileX64)
                 from(linuxX64ProcessResources.destinationDir)
                 into("${this@creating.destDir.get()}")
             }
@@ -172,5 +172,5 @@ tasks {
             password.set(registryPass)
             url.set("https://$registryHost/v1/")
         }
-    }*/
+    }
 }
