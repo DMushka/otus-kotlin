@@ -21,20 +21,20 @@ suspend inline fun <T> IGrschbrAppSettings.controllerHelper(
     return try {
         ctx.getRequest()
         logger.info(
-            msg = "Request $logId started for ${clazz.simpleName}",
+            msg = "Request $logId type ${ctx.type} started for ${clazz.simpleName}",
             marker = "BIZ",
             data = ctx.toLog(logId)
         )
         processor.exec(ctx)
         logger.info(
-            msg = "Request $logId processed for ${clazz.simpleName}",
+            msg = "Request $logId type ${ctx.type} processed for ${clazz.simpleName}",
             marker = "BIZ",
             data = ctx.toLog(logId)
         )
         ctx.toResponse()
     } catch (e: Throwable) {
         logger.error(
-            msg = "Request $logId failed for ${clazz.simpleName}",
+            msg = "Request $logId type ${ctx.type} failed for ${clazz.simpleName}",
             marker = "BIZ",
             data = ctx.toLog(logId)
         )

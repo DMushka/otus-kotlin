@@ -52,12 +52,13 @@ Groschenberry -- это приложение для нумизматов, поз
 
 ### Фреймворки и транспорты
 
-1. [ok-marketplace-app-ktor](ok-marketplace-be/ok-marketplace-app-ktor) - Приложение на Ktor
+1. [groschenberr-app-ktor](groschenberr-be/groschenberr-app-ktor) - Приложение на Ktor
+2. [groschenberr-app-kafka](groschenberr-be/groschenberr-app-kafka) - Микросервис на Kafka
 
 ### Модули бизнес-логики
 
-1. [ok-marketplace-stubs](ok-marketplace-be/ok-marketplace-stubs) - Стабы для ответов сервиса
-2. [ok-marketplace-biz](ok-marketplace-be/ok-marketplace-biz) - Модуль бизнес-логики приложения: обслуживание стабов,
+1. [groschenberr-stubs](groschenberr-be/groschenberr-stubs) - Стабы для ответов сервиса
+2. [groschenberr-biz](groschenberr-be/groschenberr-biz) - Модуль бизнес-логики приложения: обслуживание стабов,
    валидация, работа с БД
 
 ## Библиотеки
@@ -65,14 +66,16 @@ Groschenberry -- это приложение для нумизматов, поз
 ### Мониторинг и логирование
 
 1. [deploy](deploy) - Инструменты мониторинга и деплоя
-2. [groschenberry-lib-logging-common](ok-marketplace-libs/ok-marketplace-lib-logging-common) - Общие объявления для
+2. [groschenberry-lib-logging-common](groschenberr-libs/groschenberr-lib-logging-common) - Общие объявления для
    логирования
-3. [groschenberry-lib-logging-logback](ok-marketplace-libs/ok-marketplace-lib-logging-logback) - Библиотека логирования
+3. [groschenberry-lib-logging-logback](groschenberr-libs/groschenberr-lib-logging-logback) - Библиотека логирования
    на базе библиотеки Logback
+4. [groschenberry-lib-logging-kermit](groschenberr-libs/groschenberr-lib-logging-kermit) - Библиотека логирования
+   на базе библиотеки Kermit
 
 ## Тестирование
 
 ### Сквозные/интеграционные тесты
 
-1. [groschenberry-e2e-be](ok-marketplace-tests/ok-marketplace-e2e-be) - Сквозные/интеграционные тесты для бэкенда
-   системы
+1. [groschenberry-e2e-be](groschenberr-tests/groschenberr-e2e-be) - Сквозные/интеграционные тесты для бэкенда
+   системы //TODO

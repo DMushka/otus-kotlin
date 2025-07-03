@@ -6,6 +6,7 @@ import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCILock
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrWorkMode
+import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 
 fun GrschbrContext.fromTransport(request: IBasicRequest) = when (request) {
@@ -14,7 +15,7 @@ fun GrschbrContext.fromTransport(request: IBasicRequest) = when (request) {
     is CIBUpdateRequest -> fromTransport(request)
     is CIBDeleteRequest -> fromTransport(request)
     is CIBSearchRequest -> fromTransport(request)
-}
+}.also { type = GrschbrType.BASIC }
 
 fun GrschbrContext.fromTransport(request: IDetailRequest) = when (request) {
     is CIDCreateRequest -> fromTransport(request)
@@ -22,7 +23,7 @@ fun GrschbrContext.fromTransport(request: IDetailRequest) = when (request) {
     is CIDUpdateRequest -> fromTransport(request)
     is CIDDeleteRequest -> fromTransport(request)
     is CIDSearchRequest -> fromTransport(request)
-}
+}.also { type = GrschbrType.DETAIL }
 
 private fun String?.toCIId() = this?.let { GrschbrCIId(it) } ?: GrschbrCIId.NONE
 private fun String?.toCIBLock() = this?.let { GrschbrCILock(it) } ?: GrschbrCILock.NONE

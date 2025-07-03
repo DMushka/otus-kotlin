@@ -4,6 +4,7 @@ import com.otus.otuskotlin.groschenberry.api.v1.mappers.*
 import com.otus.otuskotlin.groschenberry.api.v1.models.*
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
+import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIDStub
@@ -37,6 +38,7 @@ class MapperTest {
     @Test
     fun cibToTransport() {
         val context = GrschbrContext(
+            type = GrschbrType.BASIC,
             requestId = GrschbrRequestId("1234"),
             command = GrschbrCommand.CREATE,
             cibResponse = GrschbrCIBStub.get(),
@@ -87,6 +89,7 @@ class MapperTest {
     @Test
     fun cidToTransport() {
         val context = GrschbrContext(
+            type = GrschbrType.DETAIL,
             requestId = GrschbrRequestId("1234"),
             command = GrschbrCommand.CREATE,
             cidResponse = GrschbrCIDStub.get(),
