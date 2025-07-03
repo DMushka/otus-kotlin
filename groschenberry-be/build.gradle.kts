@@ -17,18 +17,17 @@ subprojects {
     version = rootProject.version
 }
 
+ext {
+    val specDir = layout.projectDirectory.dir("../specs")
+    set("spec-v1", specDir.file("specs-ci-v1.yaml").toString())
+    set("spec-ci-log", specDir.file("specs-ci-log.yaml").toString())
+}
+
 tasks {
-    create("build") {
-        group = "build"
-        dependsOn(project(":my-compose-project-tmp").getTasksByName("build",false))
-    }
-    create("check") {
-        group = "verification"
-        subprojects.forEach { proj ->
-            println("PROJ $proj")
-            proj.getTasksByName("check", false).also {
-                this@create.dependsOn(it)
-            }
+    arrayOf("build", "clean", "check").forEach { tsk ->
+        register(tsk) {
+            group = "build"
+            dependsOn(subprojects.map { it.getTasksByName(tsk, false) })
         }
     }
 }
