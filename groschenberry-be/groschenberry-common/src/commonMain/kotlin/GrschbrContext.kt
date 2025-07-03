@@ -2,12 +2,15 @@ package com.otus.otuskotlin.groschenberry.common
 
 import kotlinx.datetime.Instant
 import com.otus.otuskotlin.groschenberry.common.models.*
+import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 
 data class GrschbrContext(
     var command: GrschbrCommand = GrschbrCommand.NONE,
     var state: GrschbrState = GrschbrState.NONE,
     val errors: MutableList<GrschbrError> = mutableListOf(),
+
+    var type: GrschbrType = GrschbrType.NONE,
 
     var workMode: GrschbrWorkMode = GrschbrWorkMode.PROD,
     var stubCase: GrschbrStubs = GrschbrStubs.NONE,

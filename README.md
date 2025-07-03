@@ -32,7 +32,50 @@ Groschenberry -- это приложение для нумизматов, поз
 
 # Структура проекта
 
+### Плагины Gradle сборки проекта
+
+1. [build-plugin](build-plugin) Модуль с плагинами
+2. [BuildPluginJvm](build-plugin/src/main/kotlin/BuildPluginJvm.kt) Плагин для сборки проектов JVM
+2. [BuildPluginMultiplarform](build-plugin/src/main/kotlin/BuildPluginMultiplatform.kt) Плагин для сборки
+   мультиплатформенных проектов
+
+## Проектные модули
+
 ### Транспортные модели, API
 
 1. [specs](specs) - описание API в форме OpenAPI-спецификаций
 2. [groschenberry-api-v1-kmp](groschenberry-be/groschenberry-api-v1-kmp) - Генерация транспортных моделей с KMP
+3. [groschenberry-common](groschenberry-be/groschenberry-common) - модуль с общими классами для модулей проекта. В
+   частности, там располагаются внутренние модели и контекст.
+4. [groschenberry-api-log](groschenberry-be/groschenberry-api-log) - Маппер между внутренними моделями и
+   моделями логирования первой версии
+
+### Фреймворки и транспорты
+
+1. [groschenberr-app-ktor](groschenberr-be/groschenberr-app-ktor) - Приложение на Ktor
+2. [groschenberr-app-kafka](groschenberr-be/groschenberr-app-kafka) - Микросервис на Kafka
+
+### Модули бизнес-логики
+
+1. [groschenberr-stubs](groschenberr-be/groschenberr-stubs) - Стабы для ответов сервиса
+2. [groschenberr-biz](groschenberr-be/groschenberr-biz) - Модуль бизнес-логики приложения: обслуживание стабов,
+   валидация, работа с БД
+
+## Библиотеки
+
+### Мониторинг и логирование
+
+1. [deploy](deploy) - Инструменты мониторинга и деплоя
+2. [groschenberry-lib-logging-common](groschenberr-libs/groschenberr-lib-logging-common) - Общие объявления для
+   логирования
+3. [groschenberry-lib-logging-logback](groschenberr-libs/groschenberr-lib-logging-logback) - Библиотека логирования
+   на базе библиотеки Logback
+4. [groschenberry-lib-logging-kermit](groschenberr-libs/groschenberr-lib-logging-kermit) - Библиотека логирования
+   на базе библиотеки Kermit
+
+## Тестирование
+
+### Сквозные/интеграционные тесты
+
+1. [groschenberry-e2e-be](groschenberr-tests/groschenberr-e2e-be) - Сквозные/интеграционные тесты для бэкенда
+   системы //TODO

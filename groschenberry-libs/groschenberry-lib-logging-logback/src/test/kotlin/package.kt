@@ -1,1 +1,1 @@
-package ru.otus.otuskotlin.marketplace
+package com.otus.otuskotlin.groschenberry

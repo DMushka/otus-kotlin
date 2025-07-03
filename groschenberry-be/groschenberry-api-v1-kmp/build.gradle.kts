@@ -21,12 +21,17 @@ kotlin {
 
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)
+
+                implementation(projects.groschenberryCommon)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+
+                implementation(projects.groschenberryCommon)
+                implementation(projects.groschenberryStubs)
             }
         }
         val jvmTest by getting {

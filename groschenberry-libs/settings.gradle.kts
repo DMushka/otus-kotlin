@@ -26,3 +26,4 @@ plugins {
 
 include(":groschenberry-lib-logging-common")
 include(":groschenberry-lib-logging-logback")
+include(":groschenberry-lib-logging-kermit")

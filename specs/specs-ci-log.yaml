@@ -1,7 +1,7 @@
 openapi: 3.0.4
 info:
   title: Groschenberry log models
-  description: Log models for logging services of marketplace
+  description: Log models for logging services of groschenberry
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -66,7 +66,7 @@ components:
       enum:
         - basic
         - detail
-        - other
+        - none
     GrschbrLogOperation:
       type: string
       enum:

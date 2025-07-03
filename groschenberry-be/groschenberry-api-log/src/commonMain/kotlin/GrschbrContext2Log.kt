@@ -4,6 +4,7 @@ import kotlinx.datetime.Clock
 import com.otus.otuskotlin.groschenberry.api.log.models.*
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
+import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
 import kotlin.takeIf
 
 fun GrschbrContext.toLog(logId: String) = CommonLogModel(
@@ -18,11 +19,23 @@ private fun GrschbrContext.toGrschbrLog(): GrschbrCILogModel? {
     val cibNone = GrschbrCIB()
     val cidNone = GrschbrCID()
     return GrschbrCILogModel(
-        ciType = if (cidRequest != cidNone) CIType.DETAIL else if (cibRequest != cibNone) CIType.BASIC else CIType.OTHER,
+        ciType = type.toLog(),
         requestId = requestId.takeIf { it != GrschbrRequestId.NONE }?.asString(),
-        requestCI = cidRequest.takeIf { it != cidNone }?.toLog() ?: cibRequest.takeIf { it != cibNone }?.toLog(),
-        responseCI = cidResponse.takeIf { it != cidNone }?.toLog() ?: cibResponse.takeIf { it != cibNone }?.toLog(),
-        responseCIs = cidsResponse.takeIf { it.isNotEmpty() }?.filter { it != cidNone }?.map { it.toLog() } ?: cibsResponse.takeIf { it.isNotEmpty() }?.filter { it != cibNone }?.map { it.toLog() },
+        requestCI = when(type) {
+            GrschbrType.BASIC -> cibRequest.takeIf { it != cibNone }?.toLog()
+            GrschbrType.DETAIL -> cidRequest.takeIf { it != cidNone }?.toLog()
+            GrschbrType.NONE -> null
+        },
+        responseCI = when(type) {
+            GrschbrType.BASIC -> cibResponse.takeIf { it != cibNone }?.toLog()
+            GrschbrType.DETAIL -> cidResponse.takeIf { it != cidNone }?.toLog()
+            GrschbrType.NONE -> null
+        },
+        responseCIs = when(type) {
+            GrschbrType.BASIC -> cibsResponse.takeIf { it.isNotEmpty() }?.filter { it != cibNone }?.map { it.toLog() }
+            GrschbrType.DETAIL -> cidsResponse.takeIf { it.isNotEmpty() }?.filter { it != cidNone }?.map { it.toLog() }
+            GrschbrType.NONE -> null
+        },
         requestFilter = ciFilterRequest.takeIf { it != GrschbrCIFilter() }?.toLog(),
     ).takeIf { it != GrschbrCILogModel() }
 }
@@ -88,3 +101,9 @@ private fun CIDLog.toLog() = GrschbrCILogModelRequestCI(
     permissions = permissions,
     cibId = cibId,
 )
+
+private fun GrschbrType.toLog() : CIType = when(this) {
+    GrschbrType.NONE -> CIType.NONE
+    GrschbrType.BASIC -> CIType.BASIC
+    GrschbrType.DETAIL -> CIType.DETAIL
+}

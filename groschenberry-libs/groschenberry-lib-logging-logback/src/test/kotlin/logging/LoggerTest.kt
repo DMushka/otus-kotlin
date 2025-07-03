@@ -1,8 +1,8 @@
-package ru.otus.otuskotlin.marketplace.logging
+package com.otus.otuskotlin.groschenberry.logging
 
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
-import com.otus.otuskotlin.groschenberry.logging.jvm.mpLoggerLogback
+import com.otus.otuskotlin.groschenberry.logging.jvm.grbLoggerLogback
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import kotlin.test.Test
@@ -48,7 +48,7 @@ class LoggerTest {
 
         try {
             runBlocking {
-                val logger = mpLoggerLogback(this::class)
+                val logger = grbLoggerLogback(this::class)
                 logger.doWithLogging(logId, block = block)
             }
         } catch (ignore: RuntimeException) {
