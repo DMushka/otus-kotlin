@@ -1,6 +1,5 @@
 package com.otus.otuskotlin.groschenberry.biz.stub
 
-import com.otus.otuskotlin.groschenberry.api.log.mapper.toLog
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
