@@ -16,24 +16,22 @@ fun GrschbrContext.toLog(logId: String) = CommonLogModel(
 )
 
 private fun GrschbrContext.toGrschbrLog(): GrschbrCILogModel? {
-    val cibNone = GrschbrCIB()
-    val cidNone = GrschbrCID()
     return GrschbrCILogModel(
         ciType = type.toLog(),
         requestId = requestId.takeIf { it != GrschbrRequestId.NONE }?.asString(),
         requestCI = when(type) {
-            GrschbrType.BASIC -> cibRequest.takeIf { it != cibNone }?.toLog()
-            GrschbrType.DETAIL -> cidRequest.takeIf { it != cidNone }?.toLog()
+            GrschbrType.BASIC -> cibRequest.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.DETAIL -> cidRequest.takeIf { !it.isEmpty() }?.toLog()
             GrschbrType.NONE -> null
         },
         responseCI = when(type) {
-            GrschbrType.BASIC -> cibResponse.takeIf { it != cibNone }?.toLog()
-            GrschbrType.DETAIL -> cidResponse.takeIf { it != cidNone }?.toLog()
+            GrschbrType.BASIC -> cibResponse.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.DETAIL -> cidResponse.takeIf { !it.isEmpty() }?.toLog()
             GrschbrType.NONE -> null
         },
         responseCIs = when(type) {
-            GrschbrType.BASIC -> cibsResponse.takeIf { it.isNotEmpty() }?.filter { it != cibNone }?.map { it.toLog() }
-            GrschbrType.DETAIL -> cidsResponse.takeIf { it.isNotEmpty() }?.filter { it != cidNone }?.map { it.toLog() }
+            GrschbrType.BASIC -> cibsResponse.takeIf { it.isNotEmpty() }?.filter { !it.isEmpty() }?.map { it.toLog() }
+            GrschbrType.DETAIL -> cidsResponse.takeIf { it.isNotEmpty() }?.filter { !it.isEmpty() }?.map { it.toLog() }
             GrschbrType.NONE -> null
         },
         requestFilter = ciFilterRequest.takeIf { it != GrschbrCIFilter() }?.toLog(),

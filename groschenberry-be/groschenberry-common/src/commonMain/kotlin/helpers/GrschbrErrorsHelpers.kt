@@ -1,6 +1,8 @@
 package com.otus.otuskotlin.groschenberry.common.helpers
 
+import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrError
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrState
 
 fun Throwable.asGrschbrError(
     code: String = "unknown",
@@ -13,3 +15,10 @@ fun Throwable.asGrschbrError(
     message = message,
     exception = this,
 )
+
+inline fun GrschbrContext.addError(vararg error: GrschbrError) = errors.addAll(error)
+
+inline fun GrschbrContext.fail(error: GrschbrError) {
+    addError(error)
+    state = GrschbrState.FAILING
+}

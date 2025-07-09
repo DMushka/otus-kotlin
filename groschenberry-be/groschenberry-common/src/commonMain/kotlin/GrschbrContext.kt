@@ -6,6 +6,8 @@ import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 
 data class GrschbrContext(
+
+    var corSettings: GrschbrCorSettings = GrschbrCorSettings(),
     var command: GrschbrCommand = GrschbrCommand.NONE,
     var state: GrschbrState = GrschbrState.NONE,
     val errors: MutableList<GrschbrError> = mutableListOf(),
