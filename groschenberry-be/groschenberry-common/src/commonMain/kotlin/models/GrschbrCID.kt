@@ -10,6 +10,10 @@ data class GrschbrCID(
     var permissionsClient: MutableSet<GrschbrCIPermissionClient> = mutableSetOf(),
     var cibId: GrschbrCIId = GrschbrCIId.Companion.NONE,
 ) {
+    fun deepCopy(): GrschbrCID = copy(
+        permissionsClient = permissionsClient.toMutableSet(),
+    )
+
     fun isEmpty() = this == NONE
 
     companion object {

@@ -4,7 +4,7 @@ import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
-import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIDStub

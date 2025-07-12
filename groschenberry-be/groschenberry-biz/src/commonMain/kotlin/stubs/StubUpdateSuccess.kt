@@ -9,7 +9,7 @@ import com.otus.otuskotlin.groschenberry.common.models.GrschbrCountry
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCurrency
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrNominal
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrState
-import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 import com.otus.otuskotlin.groschenberry.logging.common.LogLevel
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
@@ -24,7 +24,7 @@ fun ICorChainDsl<GrschbrContext>.stubUpdateSuccess(title: String, corSettings: G
     val logger = corSettings.loggerProvider.logger("stubOffersSuccess")
     handle {
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {
-            state = GrschbrState.FINISHING
+            state = GrschbrState.FINISHED
             when(type) {
                 GrschbrType.BASIC -> cibResponse =
                     GrschbrCIBStub.prepareResult {

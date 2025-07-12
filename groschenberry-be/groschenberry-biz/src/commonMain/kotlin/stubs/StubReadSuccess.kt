@@ -6,7 +6,7 @@ import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.GrschbrCorSettings
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrState
-import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 import com.otus.otuskotlin.groschenberry.logging.common.LogLevel
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
@@ -21,7 +21,7 @@ fun ICorChainDsl<GrschbrContext>.stubReadSuccess(title: String, corSettings: Grs
     val logger = corSettings.loggerProvider.logger("stubOffersSuccess")
     handle {
         logger.doWithLogging(id = this.requestId.asString(), LogLevel.DEBUG) {
-            state = GrschbrState.FINISHING
+            state = GrschbrState.FINISHED
             when(type) {
                 GrschbrType.BASIC -> cibResponse = GrschbrCIBStub.prepareResult {
                     cibRequest.id.takeIf { it != GrschbrCIId.NONE }?.also { this.id = it }
