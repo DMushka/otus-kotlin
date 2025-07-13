@@ -21,7 +21,7 @@ ktor = "2.3.12"
 muschko = "9.4.0"
 
 #Testing
-testcontainers = "1.19.7"
+testcontainers = "1.21.1"
 
 # BASE
 jvm-compiler = "17"
@@ -92,3 +92,4 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 # Docker
 muschko-remote = { id = "com.bmuschko.docker-remote-api", version.ref = "muschko" }
 muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "muschko" }
+palantir-docker = "com.palantir.docker:0.36.0"

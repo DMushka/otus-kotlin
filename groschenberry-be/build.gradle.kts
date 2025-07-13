@@ -32,4 +32,9 @@ tasks {
             dependsOn(subprojects.map { it.getTasksByName(tsk, false) })
         }
     }
+
+    register("buildImages") {
+        dependsOn(project("groschenberry-app-ktor").tasks.getByName("publishImageToLocalRegistry"))
+        dependsOn(project("groschenberry-app-ktor").tasks.getByName("dockerBuildX64Image"))
+    }
 }
