@@ -1,4 +1,4 @@
-rootProject.name = "groschenberry-libs"
+rootProject.name = "groschenberry-other"
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -20,10 +20,5 @@ pluginManagement {
     }
 }
 
-/*plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
-}*/
-
-include(":groschenberry-lib-logging-common")
-include(":groschenberry-lib-logging-logback")
-include(":groschenberry-lib-logging-kermit")
+include(":groschenberry-migration-pg")
+include(":groschenberry-migration-cs")

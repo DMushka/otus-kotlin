@@ -19,6 +19,20 @@ subprojects {
 }
 
 tasks {
+    register("clean") {
+        group = "build"
+        gradle.includedBuilds.forEach {
+            dependsOn(it.task(":clean"))
+        }
+    }
+    val buildMigrations: Task by creating {
+        dependsOn(gradle.includedBuild("groschenberry-other").task(":buildImages"))
+    }
+
+    val buildImages: Task by creating {
+        dependsOn(buildMigrations)
+        dependsOn(gradle.includedBuild("groschenberry-be").task(":buildImages"))
+    }
     create("check") {
         group = "verification"
         dependsOn(gradle.includedBuild("groschenberry-be").task(":check"))
