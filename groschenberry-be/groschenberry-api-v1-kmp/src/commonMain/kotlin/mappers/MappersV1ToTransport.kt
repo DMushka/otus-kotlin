@@ -174,6 +174,6 @@ internal fun GrschbrNominal.toTransportCIB(): Nominal? = when (this) {
 private fun GrschbrState.toResult(): ResponseResult? = when (this) {
     GrschbrState.RUNNING -> ResponseResult.SUCCESS
     GrschbrState.FAILING -> ResponseResult.ERROR
-    GrschbrState.FINISHING -> ResponseResult.SUCCESS
+    GrschbrState.FINISHED -> ResponseResult.SUCCESS
     GrschbrState.NONE -> null
 }

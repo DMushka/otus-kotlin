@@ -6,7 +6,7 @@ import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCILock
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrWorkMode
-import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 
 fun GrschbrContext.fromTransport(request: IBasicRequest) = when (request) {

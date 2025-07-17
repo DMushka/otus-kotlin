@@ -10,8 +10,11 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
 
+                implementation(libs.cor)
+
                 implementation(project(":groschenberry-common"))
                 implementation(project(":groschenberry-stubs"))
+                implementation(project(":groschenberry-api-log"))
             }
         }
         commonTest {
@@ -20,6 +23,7 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
 
                 api(libs.coroutines.test)
+                implementation(project(":groschenberry-api-log"))
             }
         }
         jvmMain {

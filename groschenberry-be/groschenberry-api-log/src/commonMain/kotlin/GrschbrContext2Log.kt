@@ -4,7 +4,7 @@ import kotlinx.datetime.Clock
 import com.otus.otuskotlin.groschenberry.api.log.models.*
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
-import com.otus.otuskotlin.groschenberry.common.models.models.GrschbrType
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
 import kotlin.takeIf
 
 fun GrschbrContext.toLog(logId: String) = CommonLogModel(
@@ -16,32 +16,38 @@ fun GrschbrContext.toLog(logId: String) = CommonLogModel(
 )
 
 private fun GrschbrContext.toGrschbrLog(): GrschbrCILogModel? {
-    val cibNone = GrschbrCIB()
-    val cidNone = GrschbrCID()
     return GrschbrCILogModel(
         ciType = type.toLog(),
         requestId = requestId.takeIf { it != GrschbrRequestId.NONE }?.asString(),
+        state = state.toLog(),
         requestCI = when(type) {
-            GrschbrType.BASIC -> cibRequest.takeIf { it != cibNone }?.toLog()
-            GrschbrType.DETAIL -> cidRequest.takeIf { it != cidNone }?.toLog()
+            GrschbrType.BASIC -> cibRequest.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.DETAIL -> cidRequest.takeIf { !it.isEmpty() }?.toLog()
             GrschbrType.NONE -> null
         },
         responseCI = when(type) {
-            GrschbrType.BASIC -> cibResponse.takeIf { it != cibNone }?.toLog()
-            GrschbrType.DETAIL -> cidResponse.takeIf { it != cidNone }?.toLog()
+            GrschbrType.BASIC -> cibResponse.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.DETAIL -> cidResponse.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.NONE -> null
+        },
+        validatedCI = when(type) {
+            GrschbrType.BASIC -> cibValidated.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.DETAIL -> cidValidated.takeIf { !it.isEmpty() }?.toLog()
             GrschbrType.NONE -> null
         },
         responseCIs = when(type) {
-            GrschbrType.BASIC -> cibsResponse.takeIf { it.isNotEmpty() }?.filter { it != cibNone }?.map { it.toLog() }
-            GrschbrType.DETAIL -> cidsResponse.takeIf { it.isNotEmpty() }?.filter { it != cidNone }?.map { it.toLog() }
+            GrschbrType.BASIC -> cibsResponse.takeIf { it.isNotEmpty() }?.filter { !it.isEmpty() }?.map { it.toLog() }
+            GrschbrType.DETAIL -> cidsResponse.takeIf { it.isNotEmpty() }?.filter { !it.isEmpty() }?.map { it.toLog() }
             GrschbrType.NONE -> null
         },
-        requestFilter = ciFilterRequest.takeIf { it != GrschbrCIFilter() }?.toLog(),
+        filterRequest = ciFilterRequest.takeIf { !it.isEmpty() }?.toLog(),
+        filterValidated = ciFilterValidated.takeIf { !it.isEmpty() }?.toLog(),
+
     ).takeIf { it != GrschbrCILogModel() }
 }
 
 private fun GrschbrCIFilter.toLog() = CIFilterLog(
-    searchString = searchString.takeIf { it.isNotBlank() },
+    searchString = searchString.takeIf { it.isNotEmpty() },
     )
 
 private fun GrschbrError.toLog() = ErrorLogModel(
@@ -88,7 +94,7 @@ private fun CIBLog.toLog() = GrschbrCILogModelRequestCI(
     material = material,
     diameter = diameter,
     startYear = startYear,
-    stopYear = startYear,
+    stopYear = stopYear,
     permissions = permissions
 )
 
@@ -106,4 +112,11 @@ private fun GrschbrType.toLog() : CIType = when(this) {
     GrschbrType.NONE -> CIType.NONE
     GrschbrType.BASIC -> CIType.BASIC
     GrschbrType.DETAIL -> CIType.DETAIL
+}
+
+private fun GrschbrState.toLog() : CIState = when(this) {
+    GrschbrState.NONE -> CIState.NONE
+    GrschbrState.RUNNING -> CIState.RUNNING
+    GrschbrState.FAILING -> CIState.FAILING
+    GrschbrState.FINISHED -> CIState.FINISHED
 }

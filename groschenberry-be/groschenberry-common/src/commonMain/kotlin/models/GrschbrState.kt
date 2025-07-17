@@ -4,5 +4,5 @@ enum class GrschbrState {
     NONE,
     RUNNING,
     FAILING,
-    FINISHING,
+    FINISHED,
 }

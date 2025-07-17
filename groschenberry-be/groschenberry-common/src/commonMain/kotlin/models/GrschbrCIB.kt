@@ -14,6 +14,10 @@ data class GrschbrCIB(
     var stopYear: String = "0000",
     val permissionsClient: MutableSet<GrschbrCIPermissionClient> = mutableSetOf()
 ) {
+    fun deepCopy(): GrschbrCIB = copy(
+        permissionsClient = permissionsClient.toMutableSet(),
+    )
+
     fun isEmpty() = this == NONE
 
     companion object {

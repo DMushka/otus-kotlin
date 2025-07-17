@@ -9,7 +9,7 @@ object GrschbrCIDStubCoins {
             description = "Монета стандартная круглая",
             mint = "Монетный двор 1",
             copies = 100,
-            issueYear = "1961",
+            issueYear = "1960",
             lock = GrschbrCILock("123"),
             cibId = GrschbrCIId("111"),
             permissionsClient = mutableSetOf(
