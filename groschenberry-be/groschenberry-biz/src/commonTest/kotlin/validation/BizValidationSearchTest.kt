@@ -5,6 +5,7 @@ import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIFilter
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCommand
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrState
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrWorkMode
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -18,6 +19,7 @@ class BizValidationSearchTest: BaseBizValidationTest() {
         val ctx = GrschbrContext(
             command = command,
             state = GrschbrState.NONE,
+            type = GrschbrType.BASIC,
             workMode = GrschbrWorkMode.TEST,
             ciFilterRequest = GrschbrCIFilter()
         )

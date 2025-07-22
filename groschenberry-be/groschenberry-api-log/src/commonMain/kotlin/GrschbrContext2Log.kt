@@ -35,6 +35,21 @@ private fun GrschbrContext.toGrschbrLog(): GrschbrCILogModel? {
             GrschbrType.DETAIL -> cidValidated.takeIf { !it.isEmpty() }?.toLog()
             GrschbrType.NONE -> null
         },
+        repoReadCI = when(type) {
+            GrschbrType.BASIC -> cibRepoRead.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.DETAIL -> cidRepoRead.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.NONE -> null
+        },
+        repoPrepareCI = when(type) {
+            GrschbrType.BASIC -> cibRepoPrepare.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.DETAIL -> cidRepoPrepare.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.NONE -> null
+        },
+        repoDoneCI = when(type) {
+            GrschbrType.BASIC -> cibRepoDone.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.DETAIL -> cidRepoDone.takeIf { !it.isEmpty() }?.toLog()
+            GrschbrType.NONE -> null
+        },
         responseCIs = when(type) {
             GrschbrType.BASIC -> cibsResponse.takeIf { it.isNotEmpty() }?.filter { !it.isEmpty() }?.map { it.toLog() }
             GrschbrType.DETAIL -> cidsResponse.takeIf { it.isNotEmpty() }?.filter { !it.isEmpty() }?.map { it.toLog() }

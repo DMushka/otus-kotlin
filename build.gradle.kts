@@ -25,14 +25,14 @@ tasks {
             dependsOn(it.task(":clean"))
         }
     }
-    val buildMigrations: Task by creating {
+    /*val buildMigrations: Task by creating {
         dependsOn(gradle.includedBuild("groschenberry-other").task(":buildImages"))
     }
 
     val buildImages: Task by creating {
         dependsOn(buildMigrations)
         dependsOn(gradle.includedBuild("groschenberry-be").task(":buildImages"))
-    }
+    }*/
 
     create("check") {
         group = "verification"

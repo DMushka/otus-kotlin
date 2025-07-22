@@ -24,6 +24,8 @@ kotlin {
 
                 api(libs.coroutines.test)
                 implementation(project(":groschenberry-api-log"))
+                implementation(projects.groschenberryRepoTests)
+                implementation(projects.groschenberryRepoInmemory)
             }
         }
         jvmMain {

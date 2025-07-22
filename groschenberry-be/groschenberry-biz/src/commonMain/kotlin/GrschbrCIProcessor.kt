@@ -3,6 +3,16 @@ package com.otus.otuskotlin.groschenberry.biz
 import com.otus.otuskotlin.groschenberry.biz.general.initStatus
 import com.otus.otuskotlin.groschenberry.biz.general.operation
 import com.otus.otuskotlin.groschenberry.biz.general.stubs
+import com.otus.otuskotlin.groschenberry.biz.repo.initRepo
+import com.otus.otuskotlin.groschenberry.biz.repo.prepareResult
+import com.otus.otuskotlin.groschenberry.biz.repo.repoCreate
+import com.otus.otuskotlin.groschenberry.biz.repo.repoDelete
+import com.otus.otuskotlin.groschenberry.biz.repo.repoPrepareCreate
+import com.otus.otuskotlin.groschenberry.biz.repo.repoPrepareDelete
+import com.otus.otuskotlin.groschenberry.biz.repo.repoPrepareUpdate
+import com.otus.otuskotlin.groschenberry.biz.repo.repoRead
+import com.otus.otuskotlin.groschenberry.biz.repo.repoSearch
+import com.otus.otuskotlin.groschenberry.biz.repo.repoUpdate
 import com.otus.otuskotlin.groschenberry.biz.stubs.*
 import com.otus.otuskotlin.groschenberry.biz.validation.REG_EXP_CONTENT
 import com.otus.otuskotlin.groschenberry.biz.validation.REG_EXP_ID
@@ -23,6 +33,7 @@ import com.otus.otuskotlin.groschenberry.biz.validation.validation
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.GrschbrCorSettings
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCommand
+import com.otus.otuskotlin.groschenberry.cor.chain
 import com.otus.otuskotlin.groschenberry.cor.rootChain
 
 class GrschbrCIProcessor(
@@ -32,6 +43,7 @@ class GrschbrCIProcessor(
 
     private val businessChain = rootChain {
         initStatus("Инициализация статуса")
+        initRepo("Инициализация репозитория")
 
         operation("Создание карточки монеты", GrschbrCommand.CREATE) {
             stubs("Обработка стабов") {
@@ -67,6 +79,12 @@ class GrschbrCIProcessor(
                 validateIssueYear("Валидация года выпуска")
                 validateCIBId("Валидация cibId", REG_EXP_ID)
             }
+
+            chain {
+                title = "Логика сохранения"
+                repoPrepareCreate("Подготовка объекта для сохранения")
+                repoCreate("Создание объявления в БД")
+            }
         }
         operation("Получить карточку монеты", GrschbrCommand.READ) {
             stubs("Обработка стабов") {
@@ -77,6 +95,10 @@ class GrschbrCIProcessor(
             }
             validation {
                 validateId("Проверка id", REG_EXP_ID)
+            }
+            chain {
+                title = "Логика чтения"
+                repoRead("Чтение объявления из БД")
             }
         }
         operation("Изменить карточку монеты", GrschbrCommand.UPDATE) {
@@ -115,6 +137,12 @@ class GrschbrCIProcessor(
                 validateCIBId("Валидация cibId", REG_EXP_ID)
                 validateLock("Проверка lock", REG_EXP_ID)
             }
+            chain {
+                title = "Логика сохранения"
+                repoRead("Чтение объявления из БД")
+                repoPrepareUpdate("Подготовка объекта для обновления")
+                repoUpdate("Обновление объявления в БД")
+            }
         }
         operation("Удалить карточку монеты", GrschbrCommand.DELETE) {
             stubs("Обработка стабов") {
@@ -128,6 +156,12 @@ class GrschbrCIProcessor(
                 validateId("Проверка id", REG_EXP_ID)
                 validateLock("Проверка lock", REG_EXP_ID)
             }
+            chain {
+                title = "Логика удаления"
+                repoRead("Чтение объявления из БД")
+                repoPrepareDelete("Подготовка объекта для удаления")
+                repoDelete("Удаление объявления из БД")
+            }
         }
         operation("Поиск карточки монеты", GrschbrCommand.SEARCH) {
             stubs("Обработка стабов") {
@@ -139,6 +173,14 @@ class GrschbrCIProcessor(
             validation {
                 validateSearchStringLength("Валидация длины строки поиска в фильтре")
             }
+            chain {
+                title = "Логика поиска"
+                repoSearch("Поиск объявления в БД по фильтру")
+                prepareResult("Подготовка ответа")
+            }
         }
+
+        prepareResult("Подготовка ответа")
+
     }.build()
 }

@@ -71,6 +71,10 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktor.serialization.json)
 
+                // DB
+                implementation(projects.groschenberryRepoStubs)
+                implementation(projects.groschenberryRepoInmemory)
+
                 // logging
                 implementation(projects.groschenberryApiLog)
                 implementation("com.otus.otuskotlin.groschenberry.libs:groschenberry-lib-logging-common")
@@ -83,6 +87,9 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+
+                // DB
+                implementation(projects.groschenberryRepoCommon)
 
                 implementation(libs.ktor.server.test)
                 implementation(libs.ktor.client.negotiation)

@@ -39,6 +39,10 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "coroutines" }
 coroutines-reactive = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive", version.ref = "coroutines" }
 cor = { module = "com.otus.otuskotlin.groschenberry.libs:groschenberry-lib-cor" }
+uuid = "com.benasher44:uuid:0.8.4"
+
+jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 
 # Logging
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -68,6 +72,9 @@ ktor-server-test = { module = "io.ktor:ktor-server-test-host", version.ref = "kt
 # Message Queues
 kafka-client = { module = "org.apache.kafka:kafka-clients", version = "3.7.0" }
 
+# Databases
+db-cache4k = "io.github.reactivecircus.cache4k:cache4k:0.13.0"
+
 # Testing
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
@@ -92,4 +99,4 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 # Docker
 muschko-remote = { id = "com.bmuschko.docker-remote-api", version.ref = "muschko" }
 muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "muschko" }
-palantir-docker = "com.palantir.docker:0.36.0"
+#palantir-docker = "com.palantir.docker:0.36.0"

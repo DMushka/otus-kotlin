@@ -9,7 +9,7 @@ data class GrschbrCID(
     var copies: Int = 0,
     var permissionsClient: MutableSet<GrschbrCIPermissionClient> = mutableSetOf(),
     var cibId: GrschbrCIId = GrschbrCIId.Companion.NONE,
-) {
+) : GrschbrCI() {
     fun deepCopy(): GrschbrCID = copy(
         permissionsClient = permissionsClient.toMutableSet(),
     )

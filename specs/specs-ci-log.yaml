@@ -58,6 +58,18 @@ components:
           $ref: '#/components/schemas/CIFilterLog'
         filterValidated:
           $ref: '#/components/schemas/CIFilterLog'
+        repoReadCI:
+          oneOf:
+            - $ref: '#/components/schemas/CIBLog'
+            - $ref: '#/components/schemas/CIDLog'
+        repoPrepareCI:
+          oneOf:
+            - $ref: '#/components/schemas/CIBLog'
+            - $ref: '#/components/schemas/CIDLog'
+        repoDoneCI:
+          oneOf:
+            - $ref: '#/components/schemas/CIBLog'
+            - $ref: '#/components/schemas/CIDLog'
         responseCI:
           oneOf:
             - $ref: '#/components/schemas/CIBLog'

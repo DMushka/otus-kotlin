@@ -1,9 +1,11 @@
 package com.otus.otuskotlin.groschenberry.common.models
 
+import com.otus.otuskotlin.groschenberry.common.repo.DbCIIdRequest
+
 data class GrschbrCIB(
-    var id: GrschbrCIId = GrschbrCIId.NONE,
-    var title: String = "",
+    var id: GrschbrCIId = GrschbrCIId.Companion.NONE,
     var description: String = "",
+    var title: String = "",
     var lock: GrschbrCILock = GrschbrCILock.NONE,
     var country: GrschbrCountry = GrschbrCountry.NONE,
     var currency: GrschbrCurrency = GrschbrCurrency.NONE,
@@ -13,7 +15,8 @@ data class GrschbrCIB(
     var startYear: String = "0000",
     var stopYear: String = "0000",
     val permissionsClient: MutableSet<GrschbrCIPermissionClient> = mutableSetOf()
-) {
+) : GrschbrCI() {
+
     fun deepCopy(): GrschbrCIB = copy(
         permissionsClient = permissionsClient.toMutableSet(),
     )

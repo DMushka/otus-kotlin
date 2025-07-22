@@ -3,6 +3,7 @@ package com.otus.otuskotlin.groschenberry.common
 import kotlinx.datetime.Instant
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
+import com.otus.otuskotlin.groschenberry.common.repo.IRepoCI
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 import com.otus.otuskotlin.groschenberry.logging.common.IGrbLogWrapper
 
@@ -35,4 +36,16 @@ data class GrschbrContext(
 
     var ciFilterRequest: GrschbrCIFilter = GrschbrCIFilter(),
     var ciFilterValidated: GrschbrCIFilter = GrschbrCIFilter(),
+
+    var ciRepo: IRepoCI = IRepoCI.NONE,
+    //var cibRepo: IRepoCIB = IRepoCIB.NONE,
+    var cibRepoRead: GrschbrCIB = GrschbrCIB(), // То, что прочитали из репозитория
+    var cibRepoPrepare: GrschbrCIB = GrschbrCIB(), // То, что готовим для сохранения в БД
+    var cibRepoDone: GrschbrCIB = GrschbrCIB(),  // Результат, полученный из БД
+    var cibsRepoDone: MutableList<GrschbrCIB> = mutableListOf(),
+    //var cidRepo: IRepoCID = IRepoCID.NONE,
+    var cidRepoRead: GrschbrCID = GrschbrCID(), // То, что прочитали из репозитория
+    var cidRepoPrepare: GrschbrCID = GrschbrCID(), // То, что готовим для сохранения в БД
+    var cidRepoDone: GrschbrCID = GrschbrCID(),  // Результат, полученный из БД
+    var cidsRepoDone: MutableList<GrschbrCID> = mutableListOf(),
     )
