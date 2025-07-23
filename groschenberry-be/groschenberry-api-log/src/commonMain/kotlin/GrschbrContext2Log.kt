@@ -73,7 +73,7 @@ private fun GrschbrError.toLog() = ErrorLogModel(
 )
 
 private fun GrschbrCIB.toLog() = CIBLog(
-    id = id.toLogId(),
+    id = id.toLog(),
     title = title.takeIf { it.isNotBlank() },
     description = description.takeIf { it.isNotBlank() },
     country = country.takeIf { it != GrschbrCountry.NONE }?.name,
@@ -84,19 +84,22 @@ private fun GrschbrCIB.toLog() = CIBLog(
     startYear = this.startYear.takeIf { it != "0000" },
     stopYear = this.startYear.takeIf { it != "0000" },
     permissions = permissionsClient.toLog(),
+    lock = lock.toLog(),
 ).toLog()
 
 fun GrschbrCID.toLog() = CIDLog(
-    id = id.toLogId(),
+    id = id.toLog(),
     description = description.takeIf { it.isNotBlank() },
     mint = mint.takeIf { it.isNotBlank() },
     copies = copies.takeIf { it != 0 },
     issueYear = issueYear.takeIf { it != "0000"},
     permissions = permissionsClient.toLog(),
-    cibId = cibId.toLogId(),
+    cibId = cibId.toLog(),
+    lock = lock.toLog(),
 ).toLog()
 
-internal fun GrschbrCIId.toLogId() = takeIf { it != GrschbrCIId.NONE }?.asString()
+internal fun GrschbrCIId.toLog() = takeIf { it != GrschbrCIId.NONE }?.asString()
+internal fun GrschbrCILock.toLog() = takeIf { it != GrschbrCILock.NONE }?.asString()
 internal fun  MutableSet<GrschbrCIPermissionClient>.toLog()  = takeIf { it.isNotEmpty() }?.map { it.name }?.toSet()
 
 private fun CIBLog.toLog() = GrschbrCILogModelRequestCI(
@@ -110,7 +113,8 @@ private fun CIBLog.toLog() = GrschbrCILogModelRequestCI(
     diameter = diameter,
     startYear = startYear,
     stopYear = stopYear,
-    permissions = permissions
+    permissions = permissions,
+    lock = lock,
 )
 
 private fun CIDLog.toLog() = GrschbrCILogModelRequestCI(
@@ -121,6 +125,7 @@ private fun CIDLog.toLog() = GrschbrCILogModelRequestCI(
     issueYear = issueYear,
     permissions = permissions,
     cibId = cibId,
+    lock = lock,
 )
 
 private fun GrschbrType.toLog() : CIType = when(this) {

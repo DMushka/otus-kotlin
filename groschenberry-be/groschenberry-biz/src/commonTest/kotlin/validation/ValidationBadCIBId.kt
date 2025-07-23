@@ -9,7 +9,7 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-fun validationCIBIdCorrect(command: GrschbrCommand, processor: GrschbrCIProcessor) = runTest {
+fun validationCIDIdCorrect(command: GrschbrCommand, processor: GrschbrCIProcessor) = runTest {
     val ctx = GrschbrContext(
         command = command,
         state = GrschbrState.NONE,

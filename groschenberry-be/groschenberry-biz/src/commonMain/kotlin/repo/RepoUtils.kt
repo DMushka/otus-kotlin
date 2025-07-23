@@ -13,12 +13,6 @@ import com.otus.otuskotlin.groschenberry.common.repo.DbCIResponseErr
 import com.otus.otuskotlin.groschenberry.common.repo.IDbCIResponse
 
 inline fun GrschbrContext.processResult(result: IDbCIResponse) {
-
-    logger.debug(
-        msg = "Process Result",
-        marker = "BIZ",
-        data =  this.toLog(command.toString())
-    )
     when(type) {
         GrschbrType.BASIC -> {
             when(result) {

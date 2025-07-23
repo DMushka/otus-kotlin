@@ -11,27 +11,39 @@ import kotlin.test.assertNotNull
 abstract class RepoCIDDeleteTest {
     abstract val repo: IRepoCI
     protected open val deleteSucc = initObjects[0]
+    protected open val deleteConc = initObjects[1]
     protected open val notFoundId = GrschbrCIId("cid-repo-delete-notFound")
 
     @Test
     fun deleteSuccess() = runRepoTest {
-        val result = repo.deleteCID(DbCIIdRequest(deleteSucc.id))
+        val lockOld = deleteSucc.lock
+        val result = repo.deleteCID(DbCIIdRequest(deleteSucc.id, lock = lockOld))
         assertIs<DbCIDResponseOk>(result)
         assertEquals(deleteSucc.description, result.data.description)
     }
 
     @Test
     fun deleteNotFound() = runRepoTest {
-        val result = repo.readCID(DbCIIdRequest(notFoundId))
+        val result = repo.deleteCID(DbCIIdRequest(notFoundId, lockOld))
 
         assertIs<DbCIResponseErr>(result)
         val error = result.errors.find { it.code == "repo-not-found" }
         assertNotNull(error)
     }
 
+    @Test
+    fun deleteConcurrency() = runRepoTest {
+        val result = repo.deleteCID(DbCIIdRequest(deleteConc.id, lock = lockBad))
+
+        assertIs<DbCIDResponseErrWithData>(result)
+        val error = result.errors.find { it.code == "repo-cid-concurrency" }
+        assertNotNull(error)
+    }
+
     companion object : BaseInitCIDs("delete") {
         override val initObjects: List<GrschbrCID> = listOf(
             createInitTestModel("delete"),
+            createInitTestModel("deleteLock"),
         )
     }
 }

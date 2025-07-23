@@ -26,6 +26,7 @@ fun ICorChainDsl<GrschbrContext>.repoPrepareUpdate(title: String) = worker {
                     nominal = cibValidated.nominal
                     startYear = cibValidated.startYear
                     stopYear = cibValidated.stopYear
+                    lock = cibValidated.lock
                 }
             }
             GrschbrType.DETAIL -> {
@@ -36,6 +37,7 @@ fun ICorChainDsl<GrschbrContext>.repoPrepareUpdate(title: String) = worker {
                     copies = cidValidated.copies
                     issueYear = cidValidated.issueYear
                     cibId = cidValidated.cibId
+                    lock = cidValidated.lock
                 }
             }
             GrschbrType.NONE -> fail(UnExpectedDbError("Request"))

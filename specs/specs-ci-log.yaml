@@ -147,6 +147,8 @@ components:
           uniqueItems: true
           items:
             type: string
+        lock:
+          type: string
 
     CIDLog:
       title: Модель лога для основной карточки монеты
@@ -169,6 +171,8 @@ components:
           uniqueItems: true
           items:
             type: string
+        lock:
+          type: string
 
     CIFilterLog:
       title: Модель лога фильтра

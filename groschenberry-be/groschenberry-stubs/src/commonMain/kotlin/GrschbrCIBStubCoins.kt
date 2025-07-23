@@ -15,7 +15,7 @@ object GrschbrCIBStubCoins {
             diameter = 5.0,
             startYear = "1956",
             stopYear = "1961",
-            lock = GrschbrCILock("123"),
+            lock = GrschbrCILock("123-234-abc-ABC"),
             permissionsClient = mutableSetOf(
                 GrschbrCIPermissionClient.READ,
                 GrschbrCIPermissionClient.UPDATE,

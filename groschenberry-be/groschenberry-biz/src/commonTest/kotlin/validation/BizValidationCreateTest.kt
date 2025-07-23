@@ -26,7 +26,7 @@ class BizValidationCreateTest: BaseBizValidationTest() {
     @Test fun trimMint() = validationMintTrim(command, processor)
     @Test fun badSymbolsMint() = validationMintSymbols(command, processor)
 
-    @Test fun correctCIBId() = validationCIBIdCorrect(command, processor)
+    @Test fun correctCIBId() = validationCIDIdCorrect(command, processor)
     @Test fun trimCIBId() = validationCIBIdTrim(command, processor)
     @Test fun emptyCIBId() = validationCIBIdEmpty(command, processor)
     @Test fun badSymbolsCIBId() = validationCIBIdFormat(command, processor)

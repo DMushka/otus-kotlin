@@ -113,7 +113,6 @@ open class RepoBaseTest {
                 id = GrschbrCIId("12345")
                 title = "xyz"
                 description = "xyz"
-                lock = GrschbrCILock("123")
             },
         )
         processor.exec(ctx)

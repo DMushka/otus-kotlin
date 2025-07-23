@@ -7,6 +7,7 @@ import kotlinx.coroutines.sync.withLock
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.common.repo.*
 import com.otus.otuskotlin.groschenberry.common.repo.CIRepoBase
+import com.otus.otuskotlin.groschenberry.common.repo.exceptions.RepoEmptyLockException
 import com.otus.otuskotlin.groschenberry.repo.common.IRepoCIInitializable
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -32,7 +33,7 @@ class CIRepoInMemory(
         cib
     }
 
-    override fun saveCID(cibs: Collection<GrschbrCID>) = cibs.map { cid: GrschbrCID ->
+    override fun saveCID(cids: Collection<GrschbrCID>) = cids.map { cid: GrschbrCID ->
         val entity = CIDEntity(cid)
         require(entity.id != null)
         cacheCID.put(entity.id, entity)
@@ -41,7 +42,7 @@ class CIRepoInMemory(
 
     override suspend fun createCIB(rq: DbCIBRequest): IDbCIResponse = tryCIMethod {
         val key = randomUuid()
-        val cib = rq.cib.copy(id = GrschbrCIId(key))
+        val cib = rq.cib.copy(id = GrschbrCIId(key), lock = GrschbrCILock(randomUuid()))
         val entity = CIBEntity(cib)
         mutex.withLock {
             cacheCIB.put(key, entity)
@@ -63,13 +64,16 @@ class CIRepoInMemory(
         val rqCIB = rq.cib
         val id = rqCIB.id.takeIf { it != GrschbrCIId.NONE } ?: return@tryCIMethod errorEmptyId
         val key = id.asString()
+        val oldLock = rqCIB.lock.takeIf { it != GrschbrCILock.NONE } ?: return@tryCIMethod errorEmptyLock(id)
 
         mutex.withLock {
             val oldCIB = cacheCIB.get(key)?.toInternal()
             when {
                 oldCIB == null -> errorNotFound(id)
+                oldCIB.lock == GrschbrCILock.NONE -> errorDb(RepoEmptyLockException(id))
+                oldCIB.lock != oldLock -> errorCIBRepoConcurrency(oldCIB, oldLock)
                 else -> {
-                    val newCIB = rqCIB.copy()
+                    val newCIB = rqCIB.copy(lock = GrschbrCILock(randomUuid()))
                     val entity = CIBEntity(newCIB)
                     cacheCIB.put(key, entity)
                     DbCIBResponseOk(newCIB)
@@ -82,11 +86,14 @@ class CIRepoInMemory(
     override suspend fun deleteCIB(rq: DbCIIdRequest): IDbCIResponse = tryCIMethod {
         val id = rq.id.takeIf { it != GrschbrCIId.NONE } ?: return@tryCIMethod errorEmptyId
         val key = id.asString()
+        val oldLock = rq.lock.takeIf { it != GrschbrCILock.NONE } ?: return@tryCIMethod errorEmptyLock(id)
 
         mutex.withLock {
             val oldCIB = cacheCIB.get(key)?.toInternal()
             when {
                 oldCIB == null -> errorNotFound(id)
+                oldCIB.lock == GrschbrCILock.NONE -> errorDb(RepoEmptyLockException(id))
+                oldCIB.lock != oldLock -> errorCIBRepoConcurrency(oldCIB, oldLock)
                 else -> {
                     cacheCIB.invalidate(key)
                     DbCIBResponseOk(oldCIB)
@@ -113,7 +120,7 @@ class CIRepoInMemory(
 
     override suspend fun createCID(rq: DbCIDRequest): IDbCIResponse = tryCIMethod {
         val key = randomUuid()
-        val cid = rq.cid.copy(id = GrschbrCIId(key))
+        val cid = rq.cid.copy(id = GrschbrCIId(key), lock = GrschbrCILock(randomUuid()))
         val entity = CIDEntity(cid)
         mutex.withLock {
             cacheCID.put(key, entity)
@@ -135,13 +142,16 @@ class CIRepoInMemory(
         val rqCID = rq.cid
         val id = rqCID.id.takeIf { it != GrschbrCIId.NONE } ?: return@tryCIMethod errorEmptyId
         val key = id.asString()
+        val oldLock = rqCID.lock.takeIf { it != GrschbrCILock.NONE } ?: return@tryCIMethod errorEmptyLock(id)
 
         mutex.withLock {
             val oldCID = cacheCID.get(key)?.toInternal()
             when {
                 oldCID == null -> errorNotFound(id)
+                oldCID.lock == GrschbrCILock.NONE -> errorDb(RepoEmptyLockException(id))
+                oldCID.lock != oldLock -> errorCIDRepoConcurrency(oldCID, oldLock)
                 else -> {
-                    val newCID = rqCID.copy()
+                    val newCID = rqCID.copy(lock = GrschbrCILock(randomUuid()))
                     val entity = CIDEntity(newCID)
                     cacheCID.put(key, entity)
                     DbCIDResponseOk(newCID)
@@ -154,11 +164,15 @@ class CIRepoInMemory(
     override suspend fun deleteCID(rq: DbCIIdRequest): IDbCIResponse = tryCIMethod {
         val id = rq.id.takeIf { it != GrschbrCIId.NONE } ?: return@tryCIMethod errorEmptyId
         val key = id.asString()
+        val oldLock = rq.lock.takeIf { it != GrschbrCILock.NONE } ?: return@tryCIMethod errorEmptyLock(id)
 
         mutex.withLock {
             val oldCID = cacheCID.get(key)?.toInternal()
+
             when {
                 oldCID == null -> errorNotFound(id)
+                oldCID.lock == GrschbrCILock.NONE -> errorDb(RepoEmptyLockException(id))
+                oldCID.lock != oldLock -> errorCIDRepoConcurrency(oldCID, oldLock)
                 else -> {
                     cacheCID.invalidate(key)
                     DbCIDResponseOk(oldCID)

@@ -3,6 +3,7 @@ package com.otus.otuskotlin.groschenberry.biz
 import com.otus.otuskotlin.groschenberry.biz.general.initStatus
 import com.otus.otuskotlin.groschenberry.biz.general.operation
 import com.otus.otuskotlin.groschenberry.biz.general.stubs
+import com.otus.otuskotlin.groschenberry.biz.repo.checkLock
 import com.otus.otuskotlin.groschenberry.biz.repo.initRepo
 import com.otus.otuskotlin.groschenberry.biz.repo.prepareResult
 import com.otus.otuskotlin.groschenberry.biz.repo.repoCreate
@@ -140,6 +141,7 @@ class GrschbrCIProcessor(
             chain {
                 title = "Логика сохранения"
                 repoRead("Чтение объявления из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareUpdate("Подготовка объекта для обновления")
                 repoUpdate("Обновление объявления в БД")
             }
@@ -159,6 +161,7 @@ class GrschbrCIProcessor(
             chain {
                 title = "Логика удаления"
                 repoRead("Чтение объявления из БД")
+                checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareDelete("Подготовка объекта для удаления")
                 repoDelete("Удаление объявления из БД")
             }

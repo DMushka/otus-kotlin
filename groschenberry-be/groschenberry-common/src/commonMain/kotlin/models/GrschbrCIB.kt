@@ -1,7 +1,5 @@
 package com.otus.otuskotlin.groschenberry.common.models
 
-import com.otus.otuskotlin.groschenberry.common.repo.DbCIIdRequest
-
 data class GrschbrCIB(
     var id: GrschbrCIId = GrschbrCIId.Companion.NONE,
     var description: String = "",

@@ -32,7 +32,7 @@ class CIDRepoInMemorySearchTest : RepoCIDSearchTest() {
 
 class CIDRepoInMemoryUpdateTest : RepoCIDUpdateTest() {
     override val repo = CIRepoInitialized(
-        CIRepoInMemory(),
+        CIRepoInMemory(randomUuid = { lockNew.asString() }),
         initCIDObjects = initObjects,
     )
 }

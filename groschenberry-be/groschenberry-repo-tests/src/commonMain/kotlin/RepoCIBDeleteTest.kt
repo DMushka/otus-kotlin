@@ -11,11 +11,13 @@ import kotlin.test.assertNotNull
 abstract class RepoCIBDeleteTest {
     abstract val repo: IRepoCI
     protected open val deleteSucc = initObjects[0]
+    protected open val deleteConc = initObjects[1]
     protected open val notFoundId = GrschbrCIId("cib-repo-delete-notFound")
 
     @Test
     fun deleteSuccess() = runRepoTest {
-        val result = repo.deleteCIB(DbCIIdRequest(deleteSucc.id))
+        val lockOld = deleteSucc.lock
+        val result = repo.deleteCIB(DbCIIdRequest(deleteSucc.id, lock = lockOld))
         assertIs<DbCIBResponseOk>(result)
         assertEquals(deleteSucc.title, result.data.title)
         assertEquals(deleteSucc.description, result.data.description)
@@ -23,16 +25,26 @@ abstract class RepoCIBDeleteTest {
 
     @Test
     fun deleteNotFound() = runRepoTest {
-        val result = repo.readCIB(DbCIIdRequest(notFoundId))
+        val result = repo.deleteCIB(DbCIIdRequest(notFoundId, lockOld))
 
         assertIs<DbCIResponseErr>(result)
         val error = result.errors.find { it.code == "repo-not-found" }
         assertNotNull(error)
     }
 
+    @Test
+    fun deleteConcurrency() = runRepoTest {
+        val result = repo.deleteCIB(DbCIIdRequest(deleteConc.id, lock = lockBad))
+
+        assertIs<DbCIBResponseErrWithData>(result)
+        val error = result.errors.find { it.code == "repo-cib-concurrency" }
+        assertNotNull(error)
+    }
+
     companion object : BaseInitCIBs("delete") {
         override val initObjects: List<GrschbrCIB> = listOf(
             createInitTestModel("delete"),
+            createInitTestModel("deleteConc"),
         )
     }
 }

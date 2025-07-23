@@ -18,7 +18,6 @@ class BizRepoUpdateTest : RepoBaseTest()  {
             id = GrschbrCIId("123")
             title = "xyz"
             description = "xyz"
-            lock = GrschbrCILock("123")
         }
         val ctx = GrschbrContext(
             command = command,
@@ -39,7 +38,6 @@ class BizRepoUpdateTest : RepoBaseTest()  {
         val cidToUpdate = GrschbrCIDStub.get().apply {
             id = GrschbrCIId("123")
             description = "xyz"
-            lock = GrschbrCILock("123")
         }
         val ctx = GrschbrContext(
             command = command,

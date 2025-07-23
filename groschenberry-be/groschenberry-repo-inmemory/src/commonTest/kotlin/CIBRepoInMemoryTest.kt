@@ -1,7 +1,6 @@
 import com.otus.otuskotlin.groschenberry.backend.repo.tests.*
 import com.otus.otuskotlin.groschenberry.repo.common.CIRepoInitialized
 import com.otus.otuskotlin.groschenberry.repo.inmemory.CIRepoInMemory
-import kotlin.test.Test
 
 
 class CIBRepoInMemoryCreateTest : RepoCIBCreateTest() {
@@ -34,7 +33,7 @@ class CIBRepoInMemorySearchTest : RepoCIBSearchTest() {
 
 class CIBRepoInMemoryUpdateTest : RepoCIBUpdateTest() {
     override val repo = CIRepoInitialized(
-        CIRepoInMemory(),
+        CIRepoInMemory(randomUuid = { lockNew.asString() }),
         initCIBObjects = initObjects,
     )
 }
