@@ -15,6 +15,7 @@ abstract class RepoCIBCreateTest {
     private val createObj = GrschbrCIBStub.get().apply {
         title = "create object"
         description = "create object description"
+        id = GrschbrCIId.NONE
     }
 
     @Test

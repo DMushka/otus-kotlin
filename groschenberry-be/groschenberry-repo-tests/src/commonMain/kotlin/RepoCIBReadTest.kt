@@ -2,10 +2,10 @@ package com.otus.otuskotlin.groschenberry.backend.repo.tests
 
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIB
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrError
 import com.otus.otuskotlin.groschenberry.common.repo.DbCIBResponseOk
 import com.otus.otuskotlin.groschenberry.common.repo.DbCIIdRequest
 import com.otus.otuskotlin.groschenberry.common.repo.DbCIResponseErr
-import com.otus.otuskotlin.groschenberry.common.repo.DbCIsResponseErr
 import com.otus.otuskotlin.groschenberry.common.repo.IRepoCI
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -28,7 +28,7 @@ abstract class RepoCIBReadTest {
         val result = repo.readCIB(DbCIIdRequest(notFoundId))
 
         assertIs<DbCIResponseErr>(result)
-        val error = result.errors.find { it.code == "repo-not-found" }
+        val error: GrschbrError? = result.errors.find { it.code == "repo-not-found" }
         assertEquals("id", error?.field)
     }
 

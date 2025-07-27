@@ -17,8 +17,10 @@ buildscript {
     }
 }
 
+/*
 group = "com.otus.otuskotlin.groschenberry.migration"
 version = "0.1.0"
+*/
 
 docker {
     name = "${project.name}:${project.version}"
@@ -72,6 +74,6 @@ tasks {
             pgContainer.start()
             println("PostgreSQL started at port: ${pgContainer.getServicePort("psql", 5432)}")
         }
-        finalizedBy(pgDn)
+        //finalizedBy(pgDn)
     }
 }

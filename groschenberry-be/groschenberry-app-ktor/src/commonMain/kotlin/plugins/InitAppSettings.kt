@@ -5,13 +5,13 @@ import com.otus.otuskotlin.groschenberry.app.ktor.GrschbrAppSettings
 import com.otus.otuskotlin.groschenberry.backend.repository.inmemory.CIRepoStub
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
 import com.otus.otuskotlin.groschenberry.common.GrschbrCorSettings
-import com.otus.otuskotlin.groschenberry.repo.inmemory.CIRepoInMemory
+//import com.otus.otuskotlin.groschenberry.repo.inmemory.CIRepoInMemory
 
 fun Application.initAppSettings(): GrschbrAppSettings {
     val corSettings = GrschbrCorSettings(
         loggerProvider = getLoggerProviderConf(),
-        repoTest = CIRepoInMemory(),
-        repoProd = CIRepoInMemory(),
+        repoTest = getDatabaseConf(CIDbType.TEST),//CIRepoInMemory(),
+        repoProd = getDatabaseConf(CIDbType.PROD),//CIRepoInMemory(),
         repoStub = CIRepoStub(),
     )
     return GrschbrAppSettings(

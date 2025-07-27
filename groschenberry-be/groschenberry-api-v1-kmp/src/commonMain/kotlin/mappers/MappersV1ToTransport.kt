@@ -105,6 +105,7 @@ fun GrschbrCIB.toTransportCIB(): CIBResponseObject = CIBResponseObject(
     startYear = this.startYear.takeIf { it != "0000"},
     stopYear = this.stopYear.takeIf { it != "0000"},
     permissions = permissionsClient.toTransportCI(),
+    lock = lock.toTransportCI()
 )
 
 fun GrschbrCID.toTransportCID(): CIDResponseObject = CIDResponseObject(
@@ -115,6 +116,7 @@ fun GrschbrCID.toTransportCID(): CIDResponseObject = CIDResponseObject(
     issueYear = this.issueYear.takeIf { it != "0000"},
     permissions = permissionsClient.toTransportCI(),
     cibId = this.cibId.toTransportCI(),
+    lock = lock.toTransportCI()
 )
 
 internal fun GrschbrCIId.toTransportCI() = takeIf { it != GrschbrCIId.NONE }?.asString()

@@ -22,7 +22,7 @@ services:
       LIQUIBASE_COMMAND_USERNAME: postgres
       LIQUIBASE_COMMAND_PASSWORD: "groschenberry-pass"
       LIQUIBASE_LIQUIBASE_SCHEMA_NAME: public
-#      tableName: cibs
+#      tableName: groschenberry_cis
 
     depends_on:
       psql:

@@ -18,8 +18,6 @@ class BizRepoDeleteTest : RepoBaseTest() {
         val cibToDelete = GrschbrCIBStub.get ().apply {
             id = GrschbrCIId("123")
         }
-        println("YYYYYYYYYYYYYYY")
-        println(cibToDelete)
         val ctx = GrschbrContext(
             command = command,
             state = GrschbrState.NONE,
@@ -28,9 +26,7 @@ class BizRepoDeleteTest : RepoBaseTest() {
             cibRequest = cibToDelete,
         )
         processor.exec(ctx)
-        //assertEquals(GrschbrState.FINISHED, ctx.state)
-        println("11111111111111")
-        println(ctx.errors)
+        assertEquals(GrschbrState.FINISHED, ctx.state)
         assertTrue { ctx.errors.isEmpty() }
         assertEquals(initCIB.id, ctx.cibResponse.id)
         assertEquals(initCIB.description, ctx.cibResponse.description)

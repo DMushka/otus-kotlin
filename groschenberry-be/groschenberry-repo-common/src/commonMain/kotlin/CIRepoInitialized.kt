@@ -7,7 +7,7 @@ import com.otus.otuskotlin.groschenberry.common.models.GrschbrCID
  * Делегат для всех репозиториев, позволяющий инициализировать базу данных предзагруженными данными
  */
 class CIRepoInitialized(
-    private val repo: IRepoCIInitializable,
+    val repo: IRepoCIInitializable,
     initCIBObjects: Collection<GrschbrCIB> = emptyList(),
     initCIDObjects: Collection<GrschbrCID> = emptyList(),
 ) : IRepoCIInitializable by repo {

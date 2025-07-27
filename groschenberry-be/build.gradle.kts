@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
-    alias(libs.plugins.muschko.remote) apply false
-    alias(libs.plugins.muschko.java) apply false
 }
 
 group = "com.otus.otuskotlin.groschenberry"
@@ -35,6 +33,7 @@ tasks {
 
     register("buildImages") {
         dependsOn(project("groschenberry-app-ktor").tasks.getByName("publishImageToLocalRegistry"))
-        dependsOn(project("groschenberry-app-ktor").tasks.getByName("dockerBuildX64Image"))
+        //dependsOn(project("groschenberry-app-ktor").tasks.getByName("dockerBuildX64Image"))
+        dependsOn(project("groschenberry-app-ktor").tasks.getByName("docker"))
     }
 }

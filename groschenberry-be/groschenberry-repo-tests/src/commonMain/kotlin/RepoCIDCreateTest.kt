@@ -14,6 +14,7 @@ abstract class RepoCIDCreateTest {
 
     private val createObj = GrschbrCIDStub.get().apply {
         description = "create object description"
+        id = GrschbrCIId.NONE
     }
 
     @Test
