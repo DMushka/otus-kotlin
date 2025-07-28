@@ -2,8 +2,8 @@ version: '3.9'
 services:
   psql:
     image: postgres
-#    ports:
-#      - "5432:5432"
+    #    ports:
+    #      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: "groschenberry-pass"
       POSTGRES_USER: "postgres"
@@ -22,7 +22,7 @@ services:
       LIQUIBASE_COMMAND_USERNAME: postgres
       LIQUIBASE_COMMAND_PASSWORD: "groschenberry-pass"
       LIQUIBASE_LIQUIBASE_SCHEMA_NAME: public
-#      tableName: cibs
+    #      tableName: groschenberry_cis
 
     depends_on:
       psql:
