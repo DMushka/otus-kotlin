@@ -17,9 +17,10 @@ dependencies {
 //  implementation(libs.db.hikari)
     implementation(libs.bundles.exposed)
 
-    testImplementation(kotlin("test-junit"))
+    //testImplementation(kotlin("test-junit"))
     testImplementation(projects.groschenberryRepoTests)
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.logback)
+    testImplementation(libs.bundles.kotest)
 
 }

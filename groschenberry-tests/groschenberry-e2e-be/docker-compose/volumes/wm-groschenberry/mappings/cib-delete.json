@@ -1,0 +1,29 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/ci/basic/delete"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "responseType": "delete",
+      "result": "success",
+      "cib": {
+        "id": "{{{jsonPath request.body '$.cib.id'}}}",
+        "title": "cib title",
+        "description": "cib description",
+        "country": "Australia",
+        "currency": "RUB",
+        "nominal": "1",
+        "material": "медь",
+        "diameter": 1.0,
+        "startYear": "2019",
+        "stopYear": "2019"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": ["response-template"]
+  }
+}

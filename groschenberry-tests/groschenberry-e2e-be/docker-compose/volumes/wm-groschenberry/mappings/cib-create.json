@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/ci/basic/create"
+  },
+
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "responseType": "create",
+      "result": "success",
+      "cib": {
+        "id": "123",
+        "title": "{{{jsonPath request.body '$.cib.title'}}}",
+        "description": "{{{jsonPath request.body '$.cib.description'}}}",
+        "country": "{{{jsonPath request.body '$.cib.country'}}}",
+        "currency": "{{{jsonPath request.body '$.cib.currency'}}}",
+        "nominal": "{{{jsonPath request.body '$.cib.nominal'}}}",
+        "material": "{{{jsonPath request.body '$.cib.material'}}}",
+        "diameter": 1.0,
+        "startYear": "{{{jsonPath request.body '$.cib.startYear'}}}",
+        "stopYear": "{{{jsonPath request.body '$.cib.stopYear'}}}"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": ["response-template"]
+  }
+}

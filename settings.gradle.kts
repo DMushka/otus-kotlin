@@ -15,3 +15,4 @@ rootProject.name = "groschenberry"
 includeBuild("groschenberry-be")
 includeBuild("groschenberry-libs")
 includeBuild("groschenberry-other")
+includeBuild("groschenberry-tests")

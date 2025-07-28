@@ -15,18 +15,18 @@ application {
 
 ktor {
     configureNativeImage(project)
-/*    docker {
+    docker {
         localImageName.set("${project.name}-jvm")
         imageTag.set(project.version.toString())
         jreVersion.set(JavaVersion.VERSION_21)
-    }*/
+    }
 }
 
 jib {
     container.mainClass = application.mainClass.get()
 }
 
-/*docker {
+docker {
     name = "${project.name}-x64:${project.version}"
 
     // Файлы для Docker-контекста
@@ -46,7 +46,7 @@ jib {
     labels(mapOf(
         "maintainer" to "dev@example.com"
     ))
-}*/
+}
 
 kotlin {
     // !!! Обязательно. Иначе не проходит сборка толстых джанриков в shadowJar
