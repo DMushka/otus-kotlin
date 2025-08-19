@@ -17,10 +17,15 @@ fun Throwable.asGrschbrError(
     exception = this,
 )
 
-inline fun GrschbrContext.addError(vararg error: GrschbrError) = errors.addAll(error)
+inline fun GrschbrContext.addError(error: GrschbrError) = errors.add(error)
+inline fun GrschbrContext.addErrors(error: Collection<GrschbrError>) = errors.addAll(error)
 
 inline fun GrschbrContext.fail(error: GrschbrError) {
     addError(error)
+    state = GrschbrState.FAILING
+}
+inline fun GrschbrContext.fail(errors: Collection<GrschbrError>) {
+    addErrors(errors)
     state = GrschbrState.FAILING
 }
 
@@ -39,4 +44,22 @@ inline fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
     level = level,
+)
+
+inline fun errorSystem(
+    violationCode: String,
+    level: LogLevel = LogLevel.ERROR,
+    e: Throwable,
+) = GrschbrError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    level = level,
+    exception = e,
+)
+
+inline fun UnExpectedDbError(type: String) = GrschbrError(
+    code = "db-$type",
+    group = "db",
+    message = "UnExpected Db $type"
 )

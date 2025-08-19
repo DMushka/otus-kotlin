@@ -36,3 +36,10 @@ include(":groschenberry-stubs")
 include(":groschenberry-biz")
 include(":groschenberry-app-ktor")
 include(":groschenberry-app-kafka")
+
+// DB
+include(":groschenberry-repo-common")
+include(":groschenberry-repo-inmemory")
+include(":groschenberry-repo-stubs")
+include(":groschenberry-repo-tests")
+include(":groschenberry-repo-pgjvm")

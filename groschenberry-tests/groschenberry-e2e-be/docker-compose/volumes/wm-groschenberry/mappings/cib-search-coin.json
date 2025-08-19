@@ -1,0 +1,60 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/ci/basic/search",
+    "bodyPatterns": [
+      {"matchesJsonPath" : "$.adFilter[?(@.searchString == 'Selling')]"}
+    ]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "responseType": "search",
+      "result": "success",
+      "ads": [
+        {
+          "id": "123",
+          "title": "Selling Bolt",
+          "description": "Требуется болт 100x5 с шестигранной шляпкой",
+          "adType": "demand",
+          "visibility": "public"
+        },
+        {
+          "id": "124",
+          "title": "Selling Nut",
+          "description": "Требуется болт 100x5 с шестигранной шляпкой",
+          "adType": "demand",
+          "visibility": "public"
+        }
+      ],      "cis": [
+        {
+          "id": "123",
+          "title": "cib title",
+          "description": "COIN Search 1",
+          "country": "Australia",
+          "currency": "RUB",
+          "nominal": "1",
+          "material": "медь",
+          "diameter": 1.0,
+          "startYear": "2019",
+          "stopYear": "2019"
+        },
+        {
+          "id": "124",
+          "title": "cib title",
+          "description": "COIN Search 2",
+          "country": "Australia",
+          "currency": "RUB",
+          "nominal": "1",
+          "material": "медь",
+          "diameter": 1.0,
+          "startYear": "2019",
+          "stopYear": "2019"
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

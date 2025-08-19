@@ -11,6 +11,8 @@ plugins {
 
 rootProject.name = "groschenberry"
 
-includeBuild("lessons")
+//includeBuild("lessons")
 includeBuild("groschenberry-be")
 includeBuild("groschenberry-libs")
+includeBuild("groschenberry-other")
+includeBuild("groschenberry-tests")

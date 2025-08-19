@@ -24,3 +24,15 @@ ktor:
 #  logger: socket
 #  socketLogger:
 #    port: 24224
+
+groschenberry:
+  repository:
+    test: "inmemory"
+    prod: "$DB_TYPE_PROD:inmemory"
+    psql:
+      schema: public
+      database: "$GRSCHBRCIS_DB:groschenberry-cis"
+      host: "$GRSCHBRCIS_HOST:localhost"
+      port: "$GRSCHBRCIS_PORT:5432"
+      user: "$GRSCHBRCIS_USER:postgres"
+      password: "$GRSCHBRCIS_PASS:groschenberry-pass"

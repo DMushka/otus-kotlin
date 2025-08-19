@@ -1,0 +1,33 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/ci/basic/search",
+    "bodyPatterns": [
+      {"matchesJsonPath" : "$.adFilter[?(@.searchString == 'Bolt')]"}
+    ]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "responseType": "search",
+      "result": "success",
+      "cis": [
+        {
+          "id": "123",
+          "title": "cib title",
+          "description": "COIN Search 1",
+          "country": "Australia",
+          "currency": "RUB",
+          "nominal": "1",
+          "material": "медь",
+          "diameter": 1.0,
+          "startYear": "2019",
+          "stopYear": "2019"
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

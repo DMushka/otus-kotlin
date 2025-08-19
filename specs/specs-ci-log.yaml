@@ -58,6 +58,18 @@ components:
           $ref: '#/components/schemas/CIFilterLog'
         filterValidated:
           $ref: '#/components/schemas/CIFilterLog'
+        repoReadCI:
+          oneOf:
+            - $ref: '#/components/schemas/CIBLog'
+            - $ref: '#/components/schemas/CIDLog'
+        repoPrepareCI:
+          oneOf:
+            - $ref: '#/components/schemas/CIBLog'
+            - $ref: '#/components/schemas/CIDLog'
+        repoDoneCI:
+          oneOf:
+            - $ref: '#/components/schemas/CIBLog'
+            - $ref: '#/components/schemas/CIDLog'
         responseCI:
           oneOf:
             - $ref: '#/components/schemas/CIBLog'
@@ -135,6 +147,8 @@ components:
           uniqueItems: true
           items:
             type: string
+        lock:
+          type: string
 
     CIDLog:
       title: Модель лога для основной карточки монеты
@@ -157,6 +171,8 @@ components:
           uniqueItems: true
           items:
             type: string
+        lock:
+          type: string
 
     CIFilterLog:
       title: Модель лога фильтра

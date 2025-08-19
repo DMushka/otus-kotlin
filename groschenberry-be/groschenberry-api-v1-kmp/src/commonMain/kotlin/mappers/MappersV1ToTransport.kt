@@ -104,7 +104,8 @@ fun GrschbrCIB.toTransportCIB(): CIBResponseObject = CIBResponseObject(
     diameter = this.diameter.takeIf { it != 0.0 },
     startYear = this.startYear.takeIf { it != "0000"},
     stopYear = this.stopYear.takeIf { it != "0000"},
-    permissions = permissionsClient.toTransportCIB(),
+    permissions = permissionsClient.toTransportCI(),
+    lock = lock.toTransportCI()
 )
 
 fun GrschbrCID.toTransportCID(): CIDResponseObject = CIDResponseObject(
@@ -113,13 +114,14 @@ fun GrschbrCID.toTransportCID(): CIDResponseObject = CIDResponseObject(
     mint = this.mint.takeIf { it.isNotBlank() },
     copies = this.copies.takeIf { it != 0 },
     issueYear = this.issueYear.takeIf { it != "0000"},
-    permissions = permissionsClient.toTransportCIB(),
+    permissions = permissionsClient.toTransportCI(),
     cibId = this.cibId.toTransportCI(),
+    lock = lock.toTransportCI()
 )
 
 internal fun GrschbrCIId.toTransportCI() = takeIf { it != GrschbrCIId.NONE }?.asString()
 
-private fun Set<GrschbrCIPermissionClient>.toTransportCIB(): Set<CIPermissions>? = this
+private fun Set<GrschbrCIPermissionClient>.toTransportCI(): Set<CIPermissions>? = this
     .map { it.toTransportCI() }
     .toSet()
     .takeIf { it.isNotEmpty() }

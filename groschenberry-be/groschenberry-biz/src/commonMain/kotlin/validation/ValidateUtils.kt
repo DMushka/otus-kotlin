@@ -1,15 +1,8 @@
 package com.otus.otuskotlin.groschenberry.biz.validation
 
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
-import com.otus.otuskotlin.groschenberry.common.helpers.addError
 import com.otus.otuskotlin.groschenberry.common.helpers.errorValidation
 import com.otus.otuskotlin.groschenberry.common.helpers.fail
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrCILock
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrError
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrState
-import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
-
 
 val REG_EXP_ID = Regex("^[0-9a-zA-Z-:]+$")
 /*

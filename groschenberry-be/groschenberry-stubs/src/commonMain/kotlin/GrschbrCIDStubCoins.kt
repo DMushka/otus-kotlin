@@ -10,7 +10,7 @@ object GrschbrCIDStubCoins {
             mint = "Монетный двор 1",
             copies = 100,
             issueYear = "1960",
-            lock = GrschbrCILock("123"),
+            lock = GrschbrCILock("123-234-abc-ABC"),
             cibId = GrschbrCIId("111"),
             permissionsClient = mutableSetOf(
                 GrschbrCIPermissionClient.READ,
