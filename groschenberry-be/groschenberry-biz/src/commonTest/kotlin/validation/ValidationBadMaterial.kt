@@ -2,6 +2,7 @@ package com.otus.otuskotlin.groschenberry.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
@@ -17,6 +18,7 @@ fun validationMaterialCorrect(command: GrschbrCommand, processor: GrschbrCIProce
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get(),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -31,6 +33,7 @@ fun validationMaterialTrim(command: GrschbrCommand, processor: GrschbrCIProcesso
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { material = " \n\t abc \t\n " }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -45,6 +48,7 @@ fun validationMaterialEmpty(command: GrschbrCommand, processor: GrschbrCIProcess
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { material = "" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -61,6 +65,7 @@ fun validationMaterialSymbols(command: GrschbrCommand, processor: GrschbrCIProce
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { material = "!@#$%^&*(),.{}" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)

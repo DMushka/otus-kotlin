@@ -19,9 +19,11 @@ import com.otus.otuskotlin.groschenberry.api.v1.models.CIBUpdateResponse
 import com.otus.otuskotlin.groschenberry.api.v1.models.CISearchFilter
 import com.otus.otuskotlin.groschenberry.api.v1.models.IBasicRequest
 import com.otus.otuskotlin.groschenberry.app.ktor.GrschbrAppSettings
+import com.otus.otuskotlin.groschenberry.app.ktor.auth.addAuth
 import com.otus.otuskotlin.groschenberry.app.ktor.module
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrCILock
+import com.otus.otuskotlin.groschenberry.common.permissions.GrschbrUserGroups
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -147,6 +149,7 @@ abstract class V1CIBRepoBaseTest : V1CIRepoBaseTest() {
         val response = client.post("/ci/basic/$func") {
             contentType(ContentType.Application.Json)
             header("X-Trace-Id", "12345")
+            addAuth()
             setBody(request)
         }
         function(response)

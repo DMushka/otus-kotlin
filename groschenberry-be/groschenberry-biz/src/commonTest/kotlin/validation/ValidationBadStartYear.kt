@@ -2,6 +2,7 @@ package com.otus.otuskotlin.groschenberry.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
@@ -17,6 +18,7 @@ fun validationStartYearCorrect(command: GrschbrCommand, processor: GrschbrCIProc
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get(),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -31,6 +33,7 @@ fun validationStartYearTrim(command: GrschbrCommand, processor: GrschbrCIProcess
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { startYear = " \n\t 2025 \t\n " }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -45,6 +48,7 @@ fun validationStartYearNoneNumeric(command: GrschbrCommand, processor: GrschbrCI
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { startYear = "fgh2" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -61,6 +65,7 @@ fun validationStartYearInvalidLength(command: GrschbrCommand, processor: Grschbr
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { startYear = "00045" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -77,6 +82,7 @@ fun validationStartYearInFuture(command: GrschbrCommand, processor: GrschbrCIPro
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { startYear = "9999" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -93,6 +99,7 @@ fun validationStartYearInPast(command: GrschbrCommand, processor: GrschbrCIProce
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { startYear = "-999" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)

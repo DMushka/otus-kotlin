@@ -1,5 +1,6 @@
 plugins {
     id("build-kmp")
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -9,12 +10,14 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(libs.coroutines.core)
+                implementation(libs.kotlinx.serialization.core)
+                implementation(libs.kotlinx.serialization.json)
 
                 // transport models
-                implementation(project(":groschenberry-common"))
-                implementation(project(":groschenberry-api-log"))
+                implementation(projects.groschenberryCommon)
+                implementation(projects.groschenberryApiLog)
 
-                implementation(project(":groschenberry-biz"))
+                implementation(projects.groschenberryBiz)
             }
         }
         commonTest {

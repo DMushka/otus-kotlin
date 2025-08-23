@@ -2,6 +2,7 @@ package validation
 
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
@@ -18,6 +19,7 @@ fun validationLockCorrect(command: GrschbrCommand, processor: GrschbrCIProcessor
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { lock = GrschbrCILock("123-234-abc-ABC") }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -32,6 +34,7 @@ fun validationLockTrim(command: GrschbrCommand, processor: GrschbrCIProcessor) =
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get().apply { lock = GrschbrCILock(" \n\t 123-234-abc-ABC \n\t ") }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -46,6 +49,7 @@ fun validationLockEmpty(command: GrschbrCommand, processor: GrschbrCIProcessor) 
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { lock = GrschbrCILock("") }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -62,6 +66,7 @@ fun validationLockFormat(command: GrschbrCommand, processor: GrschbrCIProcessor)
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get().apply { lock = GrschbrCILock("!@#\$%^&*(),.{}") }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)

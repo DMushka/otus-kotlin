@@ -1,8 +1,8 @@
 import org.testcontainers.containers.ComposeContainer
 
 plugins {
-//    id("com.palantir.docker") version "0.36.0"
-    alias(libs.plugins.palantir.docker)
+    id("com.palantir.docker") version "0.36.0"
+    //alias(libs.plugins.palantir.docker)
 }
 
 buildscript {

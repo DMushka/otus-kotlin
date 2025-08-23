@@ -2,6 +2,7 @@ package com.otus.otuskotlin.groschenberry.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIDStub
@@ -17,6 +18,7 @@ fun validationMintCorrect(command: GrschbrCommand, processor: GrschbrCIProcessor
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get(),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -31,6 +33,7 @@ fun validationMintTrim(command: GrschbrCommand, processor: GrschbrCIProcessor) =
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get().apply { mint = " \n\t abc \t\n " }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -45,6 +48,7 @@ fun validationMintSymbols(command: GrschbrCommand, processor: GrschbrCIProcessor
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get().apply { mint = "!@#$%^&*(),.{}" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)

@@ -2,6 +2,7 @@ package com.otus.otuskotlin.groschenberry.biz.repo
 
 import com.otus.otuskotlin.groschenberry.backend.repo.tests.CIRepositoryMock
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.GrschbrCorSettings
 import com.otus.otuskotlin.groschenberry.common.models.*
@@ -115,6 +116,7 @@ open class RepoBaseTest {
                 description = "xyz"
             },
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FAILING, ctx.state)
         assertEquals(GrschbrCIB(), ctx.cibResponse)

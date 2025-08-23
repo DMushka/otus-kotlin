@@ -1,6 +1,5 @@
 package com.otus.otuskotlin.groschenberry.biz.repo
 
-import com.otus.otuskotlin.groschenberry.api.log.mapper.toLog
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.helpers.UnExpectedDbError
 import com.otus.otuskotlin.groschenberry.common.helpers.fail

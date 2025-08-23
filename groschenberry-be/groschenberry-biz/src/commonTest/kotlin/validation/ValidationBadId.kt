@@ -2,6 +2,7 @@ package com.otus.otuskotlin.groschenberry.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
@@ -18,6 +19,7 @@ fun validationIdCorrect(command: GrschbrCommand, processor: GrschbrCIProcessor) 
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get()
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -33,6 +35,7 @@ fun validationIdTrim(command: GrschbrCommand, processor: GrschbrCIProcessor) = r
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get().apply { id = GrschbrCIId(" \n\t 123-234-abc-ABC \n\t ") }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -47,6 +50,7 @@ fun validationIdEmpty(command: GrschbrCommand, processor: GrschbrCIProcessor) = 
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { id = GrschbrCIId("") }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -63,6 +67,7 @@ fun validationIdFormat(command: GrschbrCommand, processor: GrschbrCIProcessor) =
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get().apply { id = GrschbrCIId("!@#\$%^&*(),.{}") }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
