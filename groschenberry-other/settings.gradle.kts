@@ -20,5 +20,5 @@ pluginManagement {
     }
 }
 
-//include(":groschenberry-migration-pg")
+include(":groschenberry-migration-pg")
 //include(":groschenberry-migration-cs")
