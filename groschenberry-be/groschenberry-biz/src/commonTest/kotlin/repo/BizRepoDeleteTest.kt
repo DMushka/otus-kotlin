@@ -1,5 +1,6 @@
 package com.otus.otuskotlin.groschenberry.biz.repo
 
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
@@ -25,6 +26,7 @@ class BizRepoDeleteTest : RepoBaseTest() {
             workMode = GrschbrWorkMode.TEST,
             cibRequest = cibToDelete,
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FINISHED, ctx.state)
         assertTrue { ctx.errors.isEmpty() }
@@ -44,6 +46,7 @@ class BizRepoDeleteTest : RepoBaseTest() {
             workMode = GrschbrWorkMode.TEST,
             cidRequest = cidToDelete,
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FINISHED, ctx.state)
         assertTrue { ctx.errors.isEmpty() }

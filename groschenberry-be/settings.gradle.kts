@@ -36,6 +36,7 @@ include(":groschenberry-stubs")
 include(":groschenberry-biz")
 include(":groschenberry-app-ktor")
 include(":groschenberry-app-kafka")
+include(":groschenberry-auth")
 
 // DB
 include(":groschenberry-repo-common")

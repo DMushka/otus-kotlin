@@ -5,6 +5,9 @@ import com.otus.otuskotlin.groschenberry.api.log.models.*
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
+import com.otus.otuskotlin.groschenberry.common.permissions.GrschbrPrincipalModel
+import com.otus.otuskotlin.groschenberry.common.permissions.GrschbrUserGroups
+import com.otus.otuskotlin.groschenberry.common.permissions.GrschbrUserPermissions
 import kotlin.takeIf
 
 fun GrschbrContext.toLog(logId: String) = CommonLogModel(
@@ -20,6 +23,9 @@ private fun GrschbrContext.toGrschbrLog(): GrschbrCILogModel? {
         ciType = type.toLog(),
         requestId = requestId.takeIf { it != GrschbrRequestId.NONE }?.asString(),
         state = state.toLog(),
+        principal = principal.toLog(),
+        permissionsChain = permissionsChain.map { it.toLog() },
+        permitted = permitted,
         requestCI = when(type) {
             GrschbrType.BASIC -> cibRequest.takeIf { !it.isEmpty() }?.toLog()
             GrschbrType.DETAIL -> cidRequest.takeIf { !it.isEmpty() }?.toLog()
@@ -99,6 +105,7 @@ fun GrschbrCID.toLog() = CIDLog(
 ).toLog()
 
 internal fun GrschbrCIId.toLog() = takeIf { it != GrschbrCIId.NONE }?.asString()
+internal fun GrschbrUserId.toLog() = takeIf { it != GrschbrUserId.NONE }?.asString()
 internal fun GrschbrCILock.toLog() = takeIf { it != GrschbrCILock.NONE }?.asString()
 internal fun  MutableSet<GrschbrCIPermissionClient>.toLog()  = takeIf { it.isNotEmpty() }?.map { it.name }?.toSet()
 
@@ -128,6 +135,12 @@ private fun CIDLog.toLog() = GrschbrCILogModelRequestCI(
     lock = lock,
 )
 
+private fun GrschbrPrincipalModel.toLog() = Principal(
+    id = id.toLog(),
+    name = fname.takeIf { it.length > 3 }?.substring(0,3) + "***" + lname.takeIf { it.length > 3 }?.takeLast(3),
+    groups = groups.map { it.toLog() }
+)
+
 private fun GrschbrType.toLog() : CIType = when(this) {
     GrschbrType.NONE -> CIType.NONE
     GrschbrType.BASIC -> CIType.BASIC
@@ -139,4 +152,19 @@ private fun GrschbrState.toLog() : CIState = when(this) {
     GrschbrState.RUNNING -> CIState.RUNNING
     GrschbrState.FAILING -> CIState.FAILING
     GrschbrState.FINISHED -> CIState.FINISHED
+}
+
+private fun GrschbrUserPermissions.toLog() : Permissions = when(this) {
+    GrschbrUserPermissions.SEARCH -> Permissions.SEARCH
+    GrschbrUserPermissions.READ -> Permissions.READ
+    GrschbrUserPermissions.CREATE -> Permissions.CREATE
+    GrschbrUserPermissions.UPDATE -> Permissions.UPDATE
+    GrschbrUserPermissions.DELETE -> Permissions.DELETE
+}
+
+private fun GrschbrUserGroups.toLog() : Groups = when(this) {
+    GrschbrUserGroups.TEST -> Groups.TEST
+    GrschbrUserGroups.ADMIN_CI -> Groups.ADMIN
+    GrschbrUserGroups.EXPERT -> Groups.EXPERT
+    GrschbrUserGroups.USER -> Groups.USER
 }

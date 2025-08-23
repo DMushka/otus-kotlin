@@ -8,7 +8,9 @@ import com.otus.otuskotlin.groschenberry.api.v1.models.IBasicRequest
 import com.otus.otuskotlin.groschenberry.api.v1.models.IBasicResponse
 import com.otus.otuskotlin.groschenberry.api.v1.models.IDetailRequest
 import com.otus.otuskotlin.groschenberry.api.v1.models.IDetailResponse
+import com.otus.otuskotlin.groschenberry.app.common.AUTH_HEADER
 import com.otus.otuskotlin.groschenberry.app.common.controllerHelper
+import com.otus.otuskotlin.groschenberry.app.common.jwt2principal
 import com.otus.otuskotlin.groschenberry.app.ktor.GrschbrAppSettings
 import kotlin.reflect.KClass
 
@@ -18,6 +20,7 @@ suspend inline fun <reified Q : IBasicRequest, @Suppress("unused") reified R : I
     logId: String,
 ) = appSettings.controllerHelper(
     {
+        principal = this@processCIB.request.header(AUTH_HEADER).jwt2principal()
         fromTransport(this@processCIB.receive<Q>())
     },
     { this@processCIB.respond(toTransportCIB() as R) },
@@ -31,6 +34,7 @@ suspend inline fun <reified Q : IDetailRequest, @Suppress("unused") reified R : 
     logId: String,
 ) = appSettings.controllerHelper(
     {
+        principal = this@processCID.request.header(AUTH_HEADER).jwt2principal()
         fromTransport(this@processCID.receive<Q>())
     },
     { this@processCID.respond(toTransportCID() as R) },

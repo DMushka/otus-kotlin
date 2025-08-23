@@ -3,6 +3,8 @@ package com.otus.otuskotlin.groschenberry.common
 import kotlinx.datetime.Instant
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrType
+import com.otus.otuskotlin.groschenberry.common.permissions.GrschbrPrincipalModel
+import com.otus.otuskotlin.groschenberry.common.permissions.GrschbrUserPermissions
 import com.otus.otuskotlin.groschenberry.common.repo.IRepoCI
 import com.otus.otuskotlin.groschenberry.common.stubs.GrschbrStubs
 import com.otus.otuskotlin.groschenberry.logging.common.IGrbLogWrapper
@@ -20,6 +22,10 @@ data class GrschbrContext(
 
     var workMode: GrschbrWorkMode = GrschbrWorkMode.PROD,
     var stubCase: GrschbrStubs = GrschbrStubs.NONE,
+
+    var principal: GrschbrPrincipalModel = GrschbrPrincipalModel.NONE,
+    val permissionsChain: MutableSet<GrschbrUserPermissions> = mutableSetOf(),
+    var permitted: Boolean = false,
 
     var requestId: GrschbrRequestId = GrschbrRequestId.NONE,
     var timeStart: Instant = Instant.NONE,

@@ -3,6 +3,9 @@ package com.otus.otuskotlin.groschenberry.biz
 import com.otus.otuskotlin.groschenberry.biz.general.initStatus
 import com.otus.otuskotlin.groschenberry.biz.general.operation
 import com.otus.otuskotlin.groschenberry.biz.general.stubs
+import com.otus.otuskotlin.groschenberry.biz.permissions.accessValidation
+import com.otus.otuskotlin.groschenberry.biz.permissions.chainPermissions
+import com.otus.otuskotlin.groschenberry.biz.permissions.frontPermissions
 import com.otus.otuskotlin.groschenberry.biz.repo.checkLock
 import com.otus.otuskotlin.groschenberry.biz.repo.initRepo
 import com.otus.otuskotlin.groschenberry.biz.repo.prepareResult
@@ -65,6 +68,8 @@ class GrschbrCIProcessor(
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
 
+            chainPermissions("Вычисление разрешений для пользователя")
+
             validation {
                 validateTitle("Валидация заголовка", REG_EXP_CONTENT)
                 validateDescription("Валидация описания", REG_EXP_CONTENT)
@@ -84,6 +89,7 @@ class GrschbrCIProcessor(
             chain {
                 title = "Логика сохранения"
                 repoPrepareCreate("Подготовка объекта для сохранения")
+                accessValidation("Вычисление прав доступа")
                 repoCreate("Создание объявления в БД")
             }
         }
@@ -94,11 +100,13 @@ class GrschbrCIProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 validateId("Проверка id", REG_EXP_ID)
             }
             chain {
                 title = "Логика чтения"
+                accessValidation("Вычисление прав доступа")
                 repoRead("Чтение объявления из БД")
             }
         }
@@ -121,6 +129,7 @@ class GrschbrCIProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 validateTitle("Валидация заголовка", REG_EXP_CONTENT)
                 validateDescription("Валидация описания", REG_EXP_CONTENT)
@@ -141,6 +150,7 @@ class GrschbrCIProcessor(
             chain {
                 title = "Логика сохранения"
                 repoRead("Чтение объявления из БД")
+                accessValidation("Вычисление прав доступа")
                 checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareUpdate("Подготовка объекта для обновления")
                 repoUpdate("Обновление объявления в БД")
@@ -154,6 +164,7 @@ class GrschbrCIProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 validateId("Проверка id", REG_EXP_ID)
                 validateLock("Проверка lock", REG_EXP_ID)
@@ -161,6 +172,7 @@ class GrschbrCIProcessor(
             chain {
                 title = "Логика удаления"
                 repoRead("Чтение объявления из БД")
+                accessValidation("Вычисление прав доступа")
                 checkLock("Проверяем консистентность по оптимистичной блокировке")
                 repoPrepareDelete("Подготовка объекта для удаления")
                 repoDelete("Удаление объявления из БД")
@@ -173,6 +185,7 @@ class GrschbrCIProcessor(
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
+            chainPermissions("Вычисление разрешений для пользователя")
             validation {
                 validateSearchStringLength("Валидация длины строки поиска в фильтре")
             }
@@ -183,6 +196,7 @@ class GrschbrCIProcessor(
             }
         }
 
+        frontPermissions("Вычисление пользовательских разрешений для фронтенда")
         prepareResult("Подготовка ответа")
 
     }.build()

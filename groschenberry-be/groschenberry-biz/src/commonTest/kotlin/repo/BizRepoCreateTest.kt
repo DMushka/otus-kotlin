@@ -1,5 +1,6 @@
 package com.otus.otuskotlin.groschenberry.biz.repo
 
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
@@ -24,6 +25,7 @@ class BizRepoCreateTest : RepoBaseTest() {
                 description = "abc"
             },
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FINISHED, ctx.state)
         assertNotEquals(GrschbrCIId.NONE, ctx.cibResponse.id)
@@ -42,6 +44,7 @@ class BizRepoCreateTest : RepoBaseTest() {
                 description = "abc"
             },
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FINISHED, ctx.state)
         assertNotEquals(GrschbrCIId.NONE, ctx.cidResponse.id)

@@ -42,6 +42,14 @@ components:
           $ref: '#/components/schemas/CIType'
         state:
           $ref: '#/components/schemas/CIState'
+        principal:
+          $ref: '#/components/schemas/Principal'
+        permissionsChain:
+          type: array
+          items:
+            $ref: '#/components/schemas/Permissions'
+        permitted:
+          type: boolean
         requestId:
           type: string
         operation:
@@ -179,3 +187,33 @@ components:
       properties:
         searchString:
           type: string
+
+    Principal:
+      title: Модель лога пользователя
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Groups'
+
+    Groups:
+      type: string
+      enum:
+        - admin
+        - expert
+        - user
+        - test
+
+    Permissions:
+      title: Модель лога разрешения
+      type: string
+      enum:
+        - create
+        - read
+        - update
+        - delete
+        - search

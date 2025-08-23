@@ -12,9 +12,10 @@ kotlin {
 
                 implementation(libs.cor)
 
-                implementation(project(":groschenberry-common"))
-                implementation(project(":groschenberry-stubs"))
-                implementation(project(":groschenberry-api-log"))
+                implementation(projects.groschenberryCommon)
+                implementation(projects.groschenberryStubs)
+                implementation(projects.groschenberryApiLog)
+                implementation(projects.groschenberryAuth)
             }
         }
         commonTest {
@@ -23,7 +24,7 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
 
                 api(libs.coroutines.test)
-                implementation(project(":groschenberry-api-log"))
+                implementation(projects.groschenberryApiLog)
                 implementation(projects.groschenberryRepoTests)
                 implementation(projects.groschenberryRepoInmemory)
             }

@@ -2,6 +2,7 @@ package com.otus.otuskotlin.groschenberry.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIDStub
@@ -17,6 +18,7 @@ fun validationCopiesCorrect(command: GrschbrCommand, processor: GrschbrCIProcess
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get(),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -31,6 +33,7 @@ fun validationCopiesNegative(command: GrschbrCommand, processor: GrschbrCIProces
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get().apply { copies = -5 }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -47,6 +50,7 @@ fun validationCopiesTooBig(command: GrschbrCommand, processor: GrschbrCIProcesso
         workMode = GrschbrWorkMode.TEST,
         cidRequest = GrschbrCIDStub.get().apply { copies = 1000000000 }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)

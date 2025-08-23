@@ -1,8 +1,11 @@
 package com.otus.otuskotlin.groschenberry.common.helpers
 
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrCIId
+import com.otus.otuskotlin.groschenberry.common.models.GrschbrCommand
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrError
 import com.otus.otuskotlin.groschenberry.common.models.GrschbrState
+import com.otus.otuskotlin.groschenberry.common.permissions.GrschbrPrincipalModel
 import com.otus.otuskotlin.groschenberry.logging.common.LogLevel
 
 fun Throwable.asGrschbrError(
@@ -62,4 +65,14 @@ inline fun UnExpectedDbError(type: String) = GrschbrError(
     code = "db-$type",
     group = "db",
     message = "UnExpected Db $type"
+)
+
+inline fun accessViolation(
+    principal: GrschbrPrincipalModel,
+    operation: GrschbrCommand,
+) = GrschbrError(
+    code = "access-${operation.name.lowercase()}",
+    group = "access",
+    message = "User ${principal.genericName()} (${principal.id.asString()}) is not allowed to perform operation ${operation.name}",
+    level = LogLevel.ERROR,
 )

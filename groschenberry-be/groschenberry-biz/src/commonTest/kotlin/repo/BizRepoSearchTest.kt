@@ -1,5 +1,6 @@
 package com.otus.otuskotlin.groschenberry.biz.repo
 
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import kotlinx.coroutines.test.runTest
@@ -21,6 +22,7 @@ class BizRepoSearchTest : RepoBaseTest()  {
                 searchString = "abc",
             ),
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FINISHED, ctx.state)
         assertEquals(1, ctx.cibsResponse.size)
@@ -37,6 +39,7 @@ class BizRepoSearchTest : RepoBaseTest()  {
                 searchString = "abc",
             ),
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FINISHED, ctx.state)
         assertEquals(1, ctx.cidsResponse.size)

@@ -2,6 +2,7 @@ package com.otus.otuskotlin.groschenberry.biz.validation
 
 import kotlinx.coroutines.test.runTest
 import com.otus.otuskotlin.groschenberry.biz.GrschbrCIProcessor
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
@@ -17,6 +18,7 @@ fun validationStopYearCorrect(command: GrschbrCommand, processor: GrschbrCIProce
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get(),
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -31,6 +33,7 @@ fun validationStopYearTrim(command: GrschbrCommand, processor: GrschbrCIProcesso
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { stopYear = " \n\t 2025 \t\n " }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(GrschbrState.FAILING, ctx.state)
@@ -45,6 +48,7 @@ fun validationStopYearNoneNumeric(command: GrschbrCommand, processor: GrschbrCIP
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { stopYear = "gh12" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -61,6 +65,7 @@ fun validationStopYearInvalidLength(command: GrschbrCommand, processor: GrschbrC
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { stopYear = "12345" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)
@@ -77,6 +82,7 @@ fun validationStopYearInPast(command: GrschbrCommand, processor: GrschbrCIProces
         workMode = GrschbrWorkMode.TEST,
         cibRequest = GrschbrCIBStub.get().apply { stopYear = "-999" }
     )
+    ctx.addTestPrincipal()
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(GrschbrState.FAILING, ctx.state)

@@ -1,5 +1,6 @@
 package com.otus.otuskotlin.groschenberry.biz.repo
 
+import com.otus.otuskotlin.groschenberry.biz.addTestPrincipal
 import com.otus.otuskotlin.groschenberry.common.GrschbrContext
 import com.otus.otuskotlin.groschenberry.common.models.*
 import com.otus.otuskotlin.groschenberry.stubs.GrschbrCIBStub
@@ -26,6 +27,7 @@ class BizRepoUpdateTest : RepoBaseTest()  {
             workMode = GrschbrWorkMode.TEST,
             cibRequest = cibToUpdate,
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FINISHED, ctx.state)
         assertEquals(cibToUpdate.id, ctx.cibResponse.id)
@@ -46,6 +48,7 @@ class BizRepoUpdateTest : RepoBaseTest()  {
             workMode = GrschbrWorkMode.TEST,
             cidRequest = cidToUpdate,
         )
+        ctx.addTestPrincipal()
         processor.exec(ctx)
         assertEquals(GrschbrState.FINISHED, ctx.state)
         assertEquals(cidToUpdate.id, ctx.cidResponse.id)

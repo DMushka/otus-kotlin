@@ -4,8 +4,8 @@
 
     <property name="LOGS_FB_HOSTS" value="${LOGS_FB_HOSTS:-127.0.0.1}"/>
     <property name="LOGS_FB_PORT" value="${LOGS_FB_PORT:-24224}"/>
-    <property name="SERVICE_NAME" value="${SERVICE_NAME:-ok_groschenberry}"/>
-    <property name="LOG_OTUS_LEVEL" value="${LOG_OTUS_LEVEL:-info}"/>
+    <property name="SERVICE_NAME" value="${SERVICE_NAME:-groschenberry}"/>
+    <property name="LOG_OTUS_LEVEL" value="${LOG_OTUS_LEVEL:-debug}"/>
     <property name="LOG_COMMON_LEVEL" value="${LOG_COMMON_LEVEL:-error}"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -103,7 +103,7 @@
     <!--        </if>-->
     <!--    </appender>-->
 
-    <logger name="ru.otus" level="${LOG_OTUS_LEVEL}" additivity="false">
+    <logger name="com.otus" level="${LOG_OTUS_LEVEL}" additivity="false">
         <appender-ref ref="fluentd"/>
         <!--        <appender-ref ref="asyncMyLogKafka"/>-->
         <appender-ref ref="STDOUT"/>

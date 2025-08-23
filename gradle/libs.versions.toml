@@ -1,5 +1,6 @@
 [versions]
 kotlin = "2.1.0"
+grschbr = "0.0.1"
 
 kotlinx-datetime = "0.6.2"
 kotlinx-serialization = "1.8.1"
@@ -26,13 +27,14 @@ muschko = "9.4.0"
 palantir = "0.36.0"
 
 #Testing
-testcontainers = "1.21.1"
+testcontainers = "1.21.3"
 
 # BASE
-jvm-compiler = "17"
+jvm-compiler = "21"
 jvm-language = "21"
 
 [libraries]
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-binaryCompatibilityValidator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompabilityValidator" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
